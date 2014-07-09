@@ -5,13 +5,17 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <body>
 <div>
-<ul class="nav nav-pills nav-stacked">
-  <li class="active"><a href="#">Home Page</a></li>
-  <li><a href="#resume">Resume</a></li>
-  <li><a href="#projects">Messages</a></li>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+  <li class="active"><a href="#" role="tab" data-toggle="tab">Home Page</a></li>
+  <li><a href="#resume" role="tab" data-toggle="tab">Resume</a></li>
+  <li><a href="#projects" role="tab" data-toggle="tab">Messages</a></li>
 </ul>
-<div id="resume">Hello Resume!</div>
-<div id="projects">Projects!</div>
+<!-- Tab panes -->
+<div class="tab-content">
+
+<div class="tab-pane active" id="resume">Hello Resume!</div>
+<div class="tab-pane" id="projects">Projects!</div>
 </div>
 </body>
 </html>
