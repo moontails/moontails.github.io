@@ -3,12 +3,18 @@
 <title>My HomePage</title>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <body>
-<header class="navbar navbar-static-top">
+<header class="navbar navbar-static-top" role="banner">
 	<div class="container-fluid">
 		<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
 			<a class="navbar-brand" href="//moontails.github.io">Home Page</a>
 		</div>
-		<nav class="collapse navbar-collapse">
+		<nav class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" role="navigation">
 			<ul class="nav nabar-nav">
 				<li class="active"><a href="resume.html">Resume</a></li>
 				<li><a href="contact.html">Contact</a></li>
