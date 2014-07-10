@@ -4,47 +4,123 @@
 <title>My HomePage</title>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <style>
-body {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-.navbar {
-  margin-bottom: 20px;
-}
+body { padding-top: 70px; }
 </style>
 </head>
 <body>
-<div class="container">
-<div class="navbar navbar-inverse" role="navigation">
-	<div class="container-fluid">
-		<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-			<a class="navbar-brand" href="//moontails.github.io">Home Page</a>
-		</div>
-		<div class="navbar-collapse collapse">
-			<ul class="nav nabar-nav">
-				<li class="active"><a href="resume.html">Resume</a></li>
-				<li><a href="contact.html">Contact</a></li>
-			</ul>
-		</div>
-	</div>
-</div>
-
 <div class="container-fluid">
 
-      <div class="row">
-        <h1>Welcome to Balachander's Home Page</h1>
-        <p class="lead">You can find information regarding my resume and how to connect with me.<br>Please use the tabs to navigate to find the respective info!</p>
-      </div>
-	    <!-- Placed at the end of the document so the pages load faster -->
+	<div class="row">
+	
+		<div class="col-md-8 col-md-offset-2">
+		
+		<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist" align="center">
+			  <li class="active"><a href="#home" role="tab" data-toggle="tab">Home</a></li>
+			  <li><a href="#profile" role="tab" data-toggle="tab">Resume</a></li>
+			  <li><a href="#messages" role="tab" data-toggle="tab">Contact</a></li>
+			</ul>
+
+		<!-- Tab panes -->
+			<div class="tab-content">
+				<div class="tab-pane active" id="home">
+					<h1 class="page-header">Welcome to my Home Page</h1>
+						<p class="lead">
+							You can find information regarding my resume and how to connect with me.
+							<br>
+							Please use the tabs to navigate and find the respective info!
+						</p>
+					  
+				</div>
+				
+				<div class="tab-pane" id="profile">
+					<h1 class="page-header"> Balachander Ramachandran</h1> 
+        
+					<h3>Education</h3>
+					<p>Master of Computer Science
+					<br>Department of Computer Science, 
+					<br>University of Illinois, Urbana-Champaign		August 2014
+					</p>
+					
+					<p>
+					Bachelor of Engineering in Computer Science Engineering
+					<br>R.V College of Engineering, Bangalore. 
+					<br>GPA – 9.39/10 		September 2009 - May 2013
+					</p>
+				
+					<h3>Skills</h3>
+					<p>Strong background in scripting, database management and algorithms.
+					<br>Good experience in identifying research parameters, surveying and analyzing data. 
+					<br>Result oriented with strong interpersonal skills.
+					<ul>		
+						<li>Programming Languages – C, C++, Python, Perl.</li>
+						<li>Web – MySql, PHP, JavaScript, HTML, CSS.</li>
+						<li>Operating Systems – Windows 7, Linux.</li>
+					</ul>
+					</p>
+					
+					<h3>Work Eexperience </h3>
+					<p>
+					<ul>
+					<li>Akamai Technologies 								  [July 2013 – June 2014]
+					<br>Was part of a dynamic team that is responsible for testing and verifying the performance and reliability of Akamai Edge Servers. 
+					<br>My work involved writing and maintaining test automation scripts, lab infrastructure scripts, develop and implement test plans & test cases, and perform various tests to verify and validate new and existing features.
+					</li>
+					<li>Akamai Technologies 								  [Feb 2012 – April 2012]
+					<br>As an intern I worked on implementing a dynamic GUI for the Akamai HD Automation Framework. 
+					<br>Implemented using PHP and JavaScript scripting and a MySQL database. 
+					</li>
+					</ul>
+					</p>
+					
+					<h3>Other Projects</h3>
+					<ul>
+					<li>Vortal - A Vertical Search Engine for Sports and Technology                         [Feb 2013 – May 2013] 
+					A vertical search engine is a domain specific search engine. 
+					Implemented a focused crawler to systematically fetch the web pages up to a depth of 2 and index them only if they are domain relevant. 
+					The crawled web pages were subject to Link Analysis and Content Analysis to determine the Page Rank.
+					</li>
+					<li>WhichHangout Mobile App                                                                                  [Sept 2012 - Dec 2012]
+					<br>A Windows Phone Application for location-based searching. 
+					<br>The application provides a way for people to search for nearby places like Hospitals, Banks, Cultural Places etc. 
+					<br>The application uses a RESTful API to access the database, communicate asynchronously via HTTP requests and parses the fetched JSON object, to display results to the user.
+					</li>
+					<li>Faculty Time Table Management System                                                           [Feb 2012 – May 2012]
+					<br>Implemented in ASP.NET, using MySQL as the database, this project had features to keep track of the timetable of a faculty along with maintaining their details such as records of classes, lab work and research and other activities. 
+					<br>Also implemented a clean and efficient interface for the faculty to manage this data and analyse their work distribution.
+					</li>
+					<li>Wi-Fi controlled Telepresence Robot                                                                  [Feb 2012 – May 2012]
+					The project involved, controlling a robot wirelessly and transmitting the stream captured by a mobile mounted on top of it.
+					</li>
+					</ul>
+					</p>
+				</div>
+				
+				<div class="tab-pane" id="messages">
+					<h1 class="page-header">You can connect with me through</h1>
+					<h4>Email</h4>
+					<p>
+					<ul>
+					<li><a href="mailto:bramach2@illinois.edu">bramach2@illinois.edu</a></li>
+					<li><a href="mailto:balachanderr91@gmail.com">balachanderr91@gmail.com</a></li>
+					</ul>
+					</p>
+					<h4>Twitter</h4>
+					<p>
+					<a href="https://twitter.com/moontails" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @moontails</a>
+					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+					</p>
+					
+				</div>
+				
+			</div>
+			
+		</div>
+		
+	</div>	    
+	
 </div>
-</div>
+<!-- Placed at the end of the document so the pages load faster -->
 <script type="text/javascript" src="//code.jquery.com/jquery-2.0.2.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 </body>
