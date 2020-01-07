@@ -1,5 +1,35 @@
 [
 	{
+		"position": "Software Development Engineer", 
+		"sdate": "March 2017 \u2014 Dec 2019", 
+		"desc": {
+			"num": 4, 
+			"bullets": [
+				"Designed and implemented a content management tool using Ruby on Rails that supports a peer-based review system, a backend Java service to store and retrieve personalized search results, track customer impressions to drive analytics for measuring customer engagement.",
+				"Designed and implemented an eventual consistency based solution for updating our NLU catalogs using DynamoDb locking mechanism and eliminated the use of additional storage.",
+				"Added new backend APIs to render Alexa on a website and control device actions by overriding voice control, for an internal tool used by Amazon Researchers in conducting usability studies.",
+				"Lead efforts to launch new conversational CX, that drives weekly engagement by 20%. Designed and implemented the ability to do A/B testing for launching new features, render conversational pleasantries based on weather and user interaction context with Alexa."
+				], 
+			"heading": "Worked on the Alexa Personality platform. My key deliveries include"
+			}, 
+		"employer": "Amazon"
+	},
+	{
+		"position": "Software Development Engineer", 
+		"sdate": "Feb 2016 \u2014 Feb 2017", 
+		"desc": {
+			"num": 4, 
+			"bullets": [
+				"Executing newly trained models in shadow mode prior to launch.",
+				"Distributed sampling of transactions for model training.",
+				"Reduced our data storage needs by 50% by tuning MapReduce jobs.",
+				"Adding new APIs to support fraud scoring scenarios."
+				], 
+			"heading": "Worked on the Fraud Modeling platform. My key deliveries include"
+			}, 
+		"employer": "Expedia"
+	},
+	{
 		"position": "Graduate Research Assistant", 
 		"sdate": "Aug 2015 \u2014 Dec 2015", 
 		"desc": {
