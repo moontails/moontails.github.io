@@ -1,6 +1,21 @@
 [
 	{
 		"position": "Software Development Engineer", 
+		"sdate": "Jan 2020 \u2014 Present", 
+		"desc": {
+			"num": 4, 
+			"bullets": [
+				"Implemented APIs for self-provisioning interconnect resources, collect kyc and cnam information to improve customer trust.",
+				"Oversaw engineering reqs and launch of direct peering with our TSPs.",
+				"Made several improvements to our inhouse webtools",
+				"Working on scaling our code and infrastructure."
+				], 
+			"heading": "Part of the Voice Connectivity and Trust team"
+			}, 
+		"employer": "Amazon"
+	},
+	{
+		"position": "Software Development Engineer", 
 		"sdate": "March 2017 \u2014 Dec 2019", 
 		"desc": {
 			"num": 4, 
