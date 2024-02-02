@@ -5,11 +5,10 @@
 		"desc": {
 			"num": 4, 
 			"bullets": [
-				"Optimized Twilio's voice connectivity routing stack for high throughput and low latency".
-				"Enabling company wide intiatives like regional expansion, database migrations and regulatory compliance".
-				"Design, review and implement various tasks like fault tolerance, customer feature requests, regulatory enforcement and improving the codebase along the way",
+				"Optimized Twilio's voice connectivity routing stack for high throughput and low latency",
+				"Enabling company wide intiatives like regional expansion, database migrations and regulatory compliance",
+				"Design, review and implement various epics like fault tolerance, customer feature requests, regulatory enforcement and improving the codebase along the way",
 				"Writing down learnings and discoveries to improve our knowledgebase."
-				""
 				], 
 			"heading": "Part of the Voice Connectivity and Trust team"
 			}, 
