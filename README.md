@@ -1,1 +1,1 @@
-website - [moontails.github.io](moontails.github.io)
+[moontails.github.io](http://moontails.github.io)
