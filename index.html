@@ -187,9 +187,9 @@
                     <span ng-show='work.desc.heading.length > 0'>{{work.desc.heading}} <br></span>
                     <span>{{work.desc.bullets.join(" ")}}</span>
 
-		    {{#work.desc.bullets this}}
+		    {{#each work.desc.bullets}}
                    	<li>{{this}}</li>
-                     {{/work.desc.bullets}}
+                     {{/each}}
                 </tr>
             {{/data}}
                   </p>
