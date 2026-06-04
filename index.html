@@ -7,9 +7,15 @@
    <!--- Basic Page Needs
    ================================================== -->
    <meta charset="utf-8">
-	<title>Heya!</title>
-	<meta name="description" content="">
-	<meta name="author" content="">
+	<title>moontails</title>
+	<meta name="description" content="Bala Ramsha is a software engineer working on distributed systems, voice connectivity, and practical tools for people.">
+	<meta name="author" content="Bala Ramsha">
+   <meta property="og:title" content="moontails">
+   <meta property="og:description" content="software engineer, climber, writer, and explorer.">
+   <meta property="og:type" content="website">
+   <meta property="og:url" content="https://moontails.github.io/">
+   <meta property="og:image" content="https://moontails.github.io/images/profilepic.jpg">
+   <meta name="twitter:card" content="summary">
 
    <!-- Mobile Specific Metas
    ================================================== -->
@@ -57,15 +63,15 @@
          <div class="banner-text">
             <h1 class="responsive-headline">Bala Ramsha</h1>
             <h3>
-              <span>Coder by day | Climber by night | Explorer always</span><br>
+              <span>Dream | Build | Repeat</span><br>
               Scroll to learn more <a class="smoothscroll" href="#about">about me</a>.</h3>
             <hr />
             <ul class="social">
-	      <li><a href="https://moontails.github.io/blog/"><i class="fa fa-pencil-square-o"></i></a></li>
-	      <li><a href="https://peakbagger.com/climber/ClimbListC.aspx?cid=20549&u=ft&j=-1&y=9999&sort=ascentdated"><i class="fa fa-star"></i></a></li>
-              <li><a href="https://www.mountainproject.com/user/200438565/balachander-ramachandran/ticks"><i class="fa fa-check"></i></a></li>
-              <li><a href="https://github.com/moontails"><i class="fa fa-github"></i></a></li>
-              <li><a href="https://www.linkedin.com/in/bala-ramsha/"><i class="fa fa-linkedin"></i></a></li>
+	      <li><a href="https://moontails.github.io/blog/" aria-label="Blog"><i class="fa fa-pencil"></i></a></li>
+	      <li><a href="https://peakbagger.com/climber/ClimbListC.aspx?cid=20549&amp;u=ft&amp;j=-1&amp;y=9999&amp;sort=ascentdated" aria-label="Peakbagger"><i class="fa fa-star"></i></a></li>
+              <li><a href="https://www.mountainproject.com/user/200438565/balachander-ramachandran/ticks" aria-label="Mountain Project"><i class="fa fa-signal"></i></a></li>
+              <li><a href="https://github.com/moontails" aria-label="GitHub"><i class="fa fa-github"></i></a></li>
+              <li><a href="https://www.linkedin.com/in/bala-ramsha/" aria-label="LinkedIn"><i class="fa fa-linkedin"></i></a></li>
             </ul>
          </div>
       </div>
@@ -85,14 +91,14 @@
 
          <div class="three columns">
              <figure>
-               <img src="images/profilepic.jpg" alt="" />
+               <img src="images/profilepic.jpg" alt="Bala Ramsha on Mt Si" />
                <figcaption>Mt Si, my favorite training ground.</figcaption>
              </figure>
 
              <br><br>
 
              <figure>
-               <img src="images/badges.png" alt="" />
+               <img src="images/badges.png" alt="Washington Mountaineers badges" />
                <figcaption>Badges earned with Washington Mountaineers!</figcaption>
              </figure>
          </div>
@@ -102,26 +108,24 @@
             <h2>Ahoy!</h2>
 
             <p>
-              I grew up in Bangalore, the Silicon Valley of India with a passion for cricket and computers. This led me to pursue an undergraduate degree in Computer Science from R. V. College of Engineering, followed by a Master's degree from the University of Illinois at Urbana-Champaign. My work has spanned from content delivery networks, detecting fraud to Amazon Alexa
+              I grew up in Bangalore with a passion for cricket and computers. That led me to an undergraduate degree in Computer Science from R. V. College of Engineering, followed by a Master's degree from the University of Illinois at Urbana-Champaign. My work has spanned content delivery networks, fraud detection, Alexa, and voice connectivity.
 
             </p>
 
             <p>
-               Now I am working on voice connectivity at Twilio.
- 
+               Today I work on voice connectivity at Twilio.
+
              </p>
 
-            <p> 
-              I am inspired to build systems that help people in their day to day life. I like contributing to open source, learning new technologies and my research interests include Distributed Systems, Machine Learning, Natural Language Processing and Information Retrieval.
+            <p>
+              I am inspired by systems that help people in everyday life. I like contributing to open source, learning new technologies, and exploring distributed systems, machine learning, natural language processing, and information retrieval.
 
             </p>
-               In my spare time - I love to write, read epic fantasies, climb mountains and explore the outdoor world!
+            <p>
+               In my spare time, I write, read epic fantasy, climb mountains, and explore the outdoors.
 	       <br>
 	       <br>
 	       YNWA ❤️
-               
-            <p>
-
             </p>
 
             <div class="row">
@@ -183,10 +187,12 @@
                <div class="twelve columns" ng-repeat="work in workex">
                   <h3>{{work.employer}}</h3>
                   <p class="info">{{work.position}} <span>&bull;</span> <em class="date">{{work.sdate}}</em></p>
-                  <p>
+                  <p ng-show='work.desc.heading.length > 0'>
                     <span ng-show='work.desc.heading.length > 0'>{{work.desc.heading}} <br></span>
-                    <span>{{work.desc.bullets.join(" ")}}</span>
                   </p>
+                  <ul class="resume-list">
+                     <li ng-repeat="bullet in work.desc.bullets">{{bullet}}</li>
+                  </ul>
 
                </div>
 
@@ -216,7 +222,9 @@
            <div class="row item">
 
               <div class="twelve columns" ng-repeat="project in projects">
-                <h3>{{project.name}}</a>
+                <h3>
+                  <a ng-if="project.link" ng-href="{{project.link}}">{{project.name}}</a>
+                  <span ng-if="!project.link">{{project.name}}</span>
                 </h3>
                  <p class="info">{{project.heading}}</p>
                  <p>{{project.body}}</p>
@@ -244,12 +252,11 @@
          <div class="twelve columns">
 
             <ul class="social-links">
-              <li><a href="https://moontails.github.io/blog/"><i class="fa fa-pencil-square-o"></i></a></li>
-	      <li><a href="https://peakbagger.com/climber/ClimbListC.aspx?cid=20549&u=ft&j=-1&y=9999&sort=ascentdated"><i class="fa fa-star"></i></a></li>
-              <li><a href="https://www.mountainproject.com/user/200438565/balachander-ramachandran/ticks"><i class="fa fa-check"></i></a></li>
-              <li><a href="https://github.com/moontails"><i class="fa fa-github"></i></a></li>
-              <li><a href="https://www.linkedin.com/in/bala-ramsha/"><i class="fa fa-linkedin"></i></a></li>
-		    
+               <li><a href="https://moontails.github.io/blog/" aria-label="Blog"><i class="fa fa-pencil-square-o"></i></a></li>
+               <li><a href="https://peakbagger.com/climber/ClimbListC.aspx?cid=20549&amp;u=ft&amp;j=-1&amp;y=9999&amp;sort=ascentdated" aria-label="Peakbagger"><i class="fa fa-star"></i></a></li>
+               <li><a href="https://www.mountainproject.com/user/200438565/balachander-ramachandran/ticks" aria-label="Mountain Project"><i class="fa fa-check"></i></a></li>
+               <li><a href="https://github.com/moontails" aria-label="GitHub"><i class="fa fa-github"></i></a></li>
+               <li><a href="https://www.linkedin.com/in/bala-ramsha/" aria-label="LinkedIn"><i class="fa fa-linkedin"></i></a></li>
             </ul>
 
             <ul class="copyright">
@@ -267,7 +274,7 @@
 
    <!-- Java Script
    ================================================== -->
-   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
    <script>window.jQuery || document.write('<script src="js/jquery-1.10.2.min.js"><\/script>')</script>
    <script type="text/javascript" src="js/jquery-migrate-1.2.1.min.js"></script>
 

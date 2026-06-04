@@ -53,7 +53,7 @@ header .banner {
    vertical-align: middle;
    margin: 0 auto;
    width: 85%;
-   padding-bottom: 30px;s
+   padding-bottom: 30px;
    text-align: center;
 }
 
@@ -206,6 +206,18 @@ ul#nav li.current a { color: #F06000; }
    line-height: 30px;
    color: #7A7A7A;
 }
+#about figure {
+   margin-bottom: 24px;
+}
+#about figure img {
+   border-radius: 4px;
+   box-shadow: 0 10px 30px rgba(0, 0, 0, .24);
+}
+#about figcaption {
+   color: #B8B8B8;
+   font: 12px/18px 'opensans-regular', sans-serif;
+   margin-top: 10px;
+}
 #about .profile-pic {
    position: relative;
    width: 120px;
@@ -280,6 +292,15 @@ ul#nav li.current a { color: #F06000; }
 #resume .date {
    font: 15px/24px 'opensans-regular', sans-serif;
    margin-top: 6px;
+}
+.resume-list {
+   margin: -12px 0 30px 20px;
+}
+.resume-list li {
+   color: #838C95;
+   line-height: 28px;
+   list-style: disc;
+   margin-bottom: 8px;
 }
 
 /*----------------------------------------------*/
@@ -424,6 +445,13 @@ ul#nav li.current a { color: #F06000; }
 #portfolio h1 span {
    border-bottom: 3px solid #11ABB0;
    padding-bottom: 6px;
+}
+#portfolio .item h3 a {
+   color: #313131;
+}
+#portfolio .item h3 a:hover,
+#portfolio .item h3 a:focus {
+   color: #11ABB0;
 }
 
 /* Portfolio Content */
