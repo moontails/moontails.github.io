@@ -3,1071 +3,944 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bala Ramsha | Backend and platform systems</title>
-  <meta name="description" content="Bala Ramsha is a senior backend and platform engineer in San Francisco, focused on reliable systems, routing, permissions, observability, and distributed systems.">
+  <title>Bala Ramsha</title>
   <style>
     :root {
-      color-scheme: dark;
-      --ink: #f7f3e8;
-      --muted: #c8c2b4;
-      --dim: #8f958b;
-      --line: rgba(247, 243, 232, 0.18);
-      --panel: rgba(12, 18, 16, 0.72);
-      --panel-soft: rgba(20, 28, 24, 0.56);
-      --forest: #12231d;
-      --moss: #91a677;
-      --snow: #f7f3e8;
-      --trail: #df8f4f;
-      --shadow: rgba(0, 0, 0, 0.42);
-      --max: 1180px;
-      --nav-h: 68px;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --bg: #0b0b09;
+      --panel: #11110f;
+      --ink: #f5f1e8;
+      --muted: #a29b8f;
+      --quiet: #676156;
+      --line: #2b2924;
+      --gold: #d7ad45;
+      --gold-soft: rgba(215, 173, 69, .12);
+      --accent: var(--gold);
+      --accent-soft: var(--gold-soft);
+      --duration: 7600ms;
     }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      background: #0d1512;
-    }
-
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      min-height: 100vh;
+      background: var(--bg);
       color: var(--ink);
-      background:
-        linear-gradient(90deg, rgba(7, 12, 10, 0.88), rgba(7, 12, 10, 0.50) 46%, rgba(7, 12, 10, 0.78)),
-        linear-gradient(180deg, rgba(7, 12, 10, 0.08), rgba(7, 12, 10, 0.90)),
-        url("img/helens-panorama.jpg") center 42% / cover fixed;
-      overflow-x: hidden;
+      font: 16px/1.62 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.16;
-      mix-blend-mode: screen;
-      background-image:
-        radial-gradient(circle at 20% 18%, rgba(247, 243, 232, 0.16), transparent 12rem),
-        repeating-linear-gradient(115deg, transparent 0 20px, rgba(247, 243, 232, 0.08) 21px 22px, transparent 23px 58px);
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    a,
+    .eyebrow,
+    .lead-glint,
+    .counter,
+    .frame-number,
+    .signal-button,
+    .sidequest-label,
+    .quest-dial button,
+    .links a,
+    .dots button::after {
+      transition: border-color 260ms ease, background 260ms ease, color 260ms ease, transform 240ms ease;
     }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .site-nav {
-      position: fixed;
-      z-index: 20;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: var(--nav-h);
+    .wrap { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    nav {
+      min-height: 72px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 24px;
-      padding: 0 clamp(20px, 5vw, 64px);
-      background: linear-gradient(180deg, rgba(8, 13, 11, 0.84), rgba(8, 13, 11, 0.28), transparent);
-      backdrop-filter: blur(14px);
+      color: var(--muted);
+      border-bottom: 1px solid var(--line);
+      font-size: 13px;
     }
-
-    .brand {
-      display: inline-flex;
+    nav div { display: flex; gap: 22px; }
+    nav a:hover { color: var(--accent); }
+    .brand { color: var(--ink); font-weight: 680; }
+    .hero {
+      min-height: calc(100vh - 72px);
+      display: grid;
+      grid-template-columns: minmax(420px, .92fr) minmax(540px, 1.08fr);
+      gap: 64px;
       align-items: center;
-      gap: 12px;
-      min-width: 0;
-      font-weight: 700;
+      padding: 62px 0 70px;
+    }
+    .intro { max-width: 610px; }
+    .eyebrow {
+      margin-bottom: 24px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 780;
+      text-transform: uppercase;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    .name {
+      margin-bottom: 0;
+      font-size: 104px;
+      line-height: .92;
       letter-spacing: 0;
     }
-
-    .brand-mark {
-      width: 32px;
-      height: 32px;
-      display: block;
-      border: 1px solid var(--line);
-      border-radius: 50%;
-      object-fit: cover;
-      background: rgba(247, 243, 232, 0.08);
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+    .lead {
+      max-width: 620px;
+      margin: 28px 0 0;
+      color: var(--muted);
+      font-size: 34px;
+      line-height: 1.16;
+      letter-spacing: 0;
     }
-
-    .nav-links {
+    .lead-strong {
+      color: var(--ink);
+      font-weight: 650;
+    }
+    .lead-mid {
+      color: var(--muted);
+    }
+    .lead-soft {
+      color: var(--quiet);
+      font-size: .88em;
+    }
+    .lead-glint {
+      color: var(--accent);
+      font-size: .88em;
+    }
+    .reel {
+      min-height: 590px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: 32px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.025), transparent 34%),
+        var(--panel);
+      box-shadow: 0 28px 90px rgba(0, 0, 0, .26);
+      overflow: hidden;
+    }
+    .reel-head,
+    .reel-foot {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 5px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(8, 13, 11, 0.42);
-      box-shadow: 0 18px 52px var(--shadow);
+      justify-content: space-between;
+      gap: 20px;
+      color: var(--quiet);
+      font-size: 12px;
+      text-transform: uppercase;
     }
-
-    .nav-links a {
-      min-width: 76px;
-      padding: 9px 14px;
-      border-radius: 999px;
-      color: var(--muted);
-      font-size: 13px;
-      text-align: center;
-      transition: color 180ms ease, background 180ms ease;
+    .counter { color: var(--accent); }
+    .reel-window {
+      position: relative;
+      min-height: 398px;
+      margin: 18px 0 28px;
     }
-
-    .nav-links a:hover,
-    .nav-links a:focus-visible,
-    .nav-links a.is-active {
-      color: var(--ink);
-      background: rgba(247, 243, 232, 0.12);
-      outline: none;
-    }
-
-    main {
-      height: 100vh;
-      overflow-y: auto;
-      scroll-snap-type: y mandatory;
-      scrollbar-width: thin;
-      scrollbar-color: var(--moss) rgba(247, 243, 232, 0.08);
-    }
-
     .frame {
-      min-height: 100vh;
-      scroll-snap-align: start;
+      position: absolute;
+      inset: 0;
       display: grid;
-      align-items: center;
-      padding: calc(var(--nav-h) + 38px) clamp(20px, 5vw, 64px) 48px;
+      align-content: start;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 540ms ease, transform 540ms ease;
+      pointer-events: none;
     }
-
-    .frame-inner {
-      width: min(100%, var(--max));
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: minmax(0, 1.02fr) minmax(280px, 0.72fr);
-      align-items: center;
-      gap: clamp(32px, 6vw, 82px);
-      opacity: 0.46;
-      transform: translateY(18px);
-      transition: opacity 520ms ease, transform 520ms ease;
-    }
-
-    .frame.is-visible .frame-inner {
+    .frame.active {
       opacity: 1;
       transform: translateY(0);
+      pointer-events: auto;
     }
-
-    .frame.solo .frame-inner {
-      grid-template-columns: minmax(0, 760px);
-      justify-content: start;
+    .frame-number {
+      margin-bottom: 8px;
+      color: var(--accent);
+      font-size: 13px;
+      text-transform: uppercase;
     }
-
-    .kicker {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
+    .frame h2 {
+      max-width: 540px;
+      margin-bottom: 28px;
+      color: var(--ink);
+      font-size: 48px;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+    .frame p {
+      max-width: 500px;
       margin: 0 0 18px;
-      color: var(--moss);
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-    }
-
-    .kicker::before {
-      content: "";
-      width: 36px;
-      height: 1px;
-      background: var(--trail);
-    }
-
-    h1,
-    h2 {
-      margin: 0;
-      max-width: 820px;
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: 500;
-      letter-spacing: 0;
-      line-height: 0.96;
-    }
-
-    h1 {
-      font-size: clamp(52px, 9vw, 116px);
-    }
-
-    h2 {
-      font-size: clamp(42px, 6vw, 78px);
-    }
-
-    .lede {
-      max-width: 680px;
-      margin: 24px 0 0;
       color: var(--muted);
-      font-size: clamp(18px, 2vw, 23px);
+      font-size: 18px;
       line-height: 1.55;
     }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 34px;
-    }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 44px;
-      padding: 0 18px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(247, 243, 232, 0.10);
-      color: var(--ink);
-      font-weight: 700;
-      font-size: 14px;
-      transition: transform 180ms ease, background 180ms ease;
-    }
-
-    .button:hover,
-    .button:focus-visible {
-      transform: translateY(-1px);
-      background: rgba(247, 243, 232, 0.16);
-      outline: none;
-    }
-
-    .button.primary {
-      border-color: rgba(223, 143, 79, 0.64);
-      background: rgba(223, 143, 79, 0.22);
-    }
-
-    .panel {
-      padding: clamp(20px, 3vw, 32px);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: linear-gradient(180deg, var(--panel), var(--panel-soft));
-      box-shadow: 0 28px 70px var(--shadow);
-    }
-
-    .panel h3 {
-      margin: 0 0 16px;
-      color: var(--snow);
+    .frame p:last-child { margin-bottom: 0; }
+    .work-intro {
+      max-width: 640px;
+      margin-bottom: 28px;
+      color: var(--muted);
       font-size: 16px;
-      letter-spacing: 0;
+      line-height: 1.46;
     }
-
-    .panel p,
-    .panel li {
-      color: var(--muted);
-      line-height: 1.55;
-    }
-
-    .panel p {
-      margin: 0;
-    }
-
-    .panel p + p {
-      margin-top: 12px;
-    }
-
-    .panel a {
-      color: var(--ink);
-      border-bottom: 1px solid rgba(223, 143, 79, 0.58);
-    }
-
-    .panel a:hover,
-    .panel a:focus-visible {
-      color: var(--trail);
-      outline: none;
-    }
-
-    .metrics {
+    .signal-board {
       display: grid;
-      gap: 14px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
+      grid-template-columns: 1fr;
+      gap: 22px;
+      border-top: 0;
     }
-
-    .metric {
+    .signal-details {
+      min-width: 0;
+    }
+    .signal-list {
       display: grid;
-      grid-template-columns: 84px minmax(0, 1fr);
-      gap: 14px;
-      align-items: baseline;
-      padding-bottom: 14px;
-      border-bottom: 1px solid rgba(247, 243, 232, 0.10);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-content: start;
+      gap: 10px;
     }
-
-    .metric:last-child {
-      padding-bottom: 0;
-      border-bottom: 0;
+    .signal-button {
+      min-height: 86px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 13px 13px 12px;
+      color: var(--quiet);
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
     }
-
-    .metric strong {
-      color: var(--trail);
-      font-size: 22px;
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: 600;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 28px;
-    }
-
-    .mini-card {
-      min-height: 132px;
-      padding: 18px;
-      border: 1px solid rgba(247, 243, 232, 0.14);
-      border-radius: 8px;
-      background: rgba(247, 243, 232, 0.075);
-    }
-
-    .mini-card span {
+    .signal-button span {
       display: block;
-      margin-bottom: 18px;
-      color: var(--moss);
+      margin-bottom: 7px;
+      color: var(--accent);
       font-size: 12px;
-      font-weight: 800;
+      line-height: 1;
       text-transform: uppercase;
-      letter-spacing: 0.11em;
     }
-
-    .mini-card h3 {
-      margin: 0 0 10px;
-      font-size: 17px;
-    }
-
-    .mini-card p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.45;
-      font-size: 14px;
-    }
-
-    .timeline {
-      display: grid;
-      gap: 18px;
-      margin: 28px 0 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .timeline li {
-      display: grid;
-      grid-template-columns: 108px minmax(0, 1fr);
-      gap: 18px;
-      color: var(--muted);
-    }
-
-    .timeline time {
-      color: var(--moss);
-      font-size: 13px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .timeline strong {
+    .signal-button strong {
       display: block;
-      margin-bottom: 5px;
+      color: inherit;
+      font-size: 15px;
+      line-height: 1.2;
+      font-weight: 560;
+    }
+    .signal-button.active {
+      border-color: var(--accent);
+      color: var(--ink);
+      background: var(--accent-soft);
+      transform: translateY(-2px);
+    }
+    .signal-button.active span {
       color: var(--ink);
     }
-
-    .tag-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 22px;
+    .signal-detail {
+      display: none;
+      min-height: 142px;
+      align-content: start;
+      padding-top: 6px;
     }
-
-    .tag-list span {
-      display: inline-flex;
-      align-items: center;
-      min-height: 32px;
-      padding: 0 11px;
-      border: 1px solid rgba(247, 243, 232, 0.14);
-      border-radius: 999px;
-      color: var(--muted);
-      background: rgba(247, 243, 232, 0.075);
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .education-list {
+    .signal-detail.active {
       display: grid;
-      gap: 14px;
-      margin-bottom: 22px;
+      animation: inner-slide 420ms ease both;
     }
-
-    .education-item strong {
+    .signal-detail h3 {
+      max-width: 560px;
+      margin: 0 0 14px;
+      color: var(--ink);
+      font-size: 38px;
+      line-height: 1.05;
+      font-weight: 690;
+    }
+    .signal-detail p {
+      max-width: 580px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.5;
+    }
+    .sidequest {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 42px;
+      align-items: center;
+      padding: 34px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .sidequest-label {
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 780;
+      text-transform: uppercase;
+    }
+    .quest-title {
+      margin: 10px 0 0;
+      color: var(--ink);
+      font-size: 30px;
+      line-height: 1.12;
+    }
+    .quest-control {
+      display: grid;
+      gap: 18px;
+    }
+    .quest-copy {
+      min-height: 72px;
+      color: var(--muted);
+      font-size: 19px;
+      line-height: 1.45;
+    }
+    .quest-dial {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .quest-dial button {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 12px;
+      color: var(--quiet);
+      background: rgba(255,255,255,.018);
+      cursor: pointer;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+    .quest-dial button.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .quest-panel {
+      display: none;
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+    }
+    .quest-panel.active {
       display: block;
+      animation: inner-slide 420ms ease both;
+    }
+    .peaks-view {
+      display: grid;
+      gap: 18px;
+    }
+    .peaks-view-head span {
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 760;
+      text-transform: uppercase;
+    }
+    .peaks-view-head strong {
       color: var(--ink);
       font-size: 15px;
-      line-height: 1.35;
+      font-weight: 560;
     }
-
-    .education-item span {
-      display: block;
-      margin-top: 4px;
+    .peaks-view h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 30px;
+      line-height: 1.08;
+      font-weight: 690;
+    }
+    .peaks-view > p {
+      max-width: 520px;
+      margin: 0;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 15px;
       line-height: 1.45;
     }
-
-    .sub-list {
+    .peak-stats {
       display: grid;
-      gap: 6px;
-      margin: 8px 0 0;
-      padding: 0;
-      list-style: none;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
     }
-
-    .scope-list .sub-list li {
+    .peak-stat {
+      border-top: 1px solid var(--line);
+      padding-top: 11px;
+    }
+    .peak-stat span {
       display: block;
-      color: var(--muted);
-      line-height: 1.42;
+      margin-bottom: 5px;
+      color: var(--quiet);
+      font-size: 11px;
+      line-height: 1;
+      text-transform: uppercase;
     }
-
-    .scope-list .sub-list li::before {
-      content: none;
-    }
-
-    .scope-list .sub-list li::marker {
-      content: "";
-    }
-
-    .link-strip {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 9px;
-      margin-top: 18px;
-    }
-
-    .link-strip a {
-      display: inline-flex;
-      align-items: center;
-      min-height: 34px;
-      padding: 0 12px;
-      border: 1px solid rgba(247, 243, 232, 0.14);
-      border-radius: 999px;
-      background: rgba(247, 243, 232, 0.075);
+    .peak-stat strong {
       color: var(--ink);
-      font-size: 13px;
-      font-weight: 800;
+      font-size: 15px;
+      font-weight: 590;
+      line-height: 1.2;
     }
-
-    .summit-stats {
+    .summit-log {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 30px;
+      gap: 8px;
     }
-
-    .summit-stat {
-      min-height: 112px;
-      padding: 17px;
-      border: 1px solid rgba(247, 243, 232, 0.14);
-      border-radius: 8px;
-      background: rgba(247, 243, 232, 0.075);
-    }
-
-    .summit-stat span {
-      display: block;
-      color: var(--moss);
+    .summit-log-title {
+      color: var(--accent);
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 740;
       text-transform: uppercase;
-      letter-spacing: 0.11em;
     }
-
-    .summit-stat strong {
-      display: block;
-      margin-top: 14px;
-      color: var(--snow);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(22px, 2.6vw, 34px);
-      font-weight: 600;
-      line-height: 1;
-      overflow-wrap: anywhere;
-    }
-
-    .summit-panel {
-      max-height: min(68vh, 680px);
-      overflow: auto;
-      scrollbar-width: thin;
-      scrollbar-color: var(--moss) rgba(247, 243, 232, 0.08);
-    }
-
-    .summit-years {
-      display: grid;
-      gap: 12px;
-    }
-
-    .summit-year {
-      border-top: 1px solid rgba(247, 243, 232, 0.12);
-      padding-top: 12px;
-    }
-
-    .summit-year:first-child {
-      border-top: 0;
-      padding-top: 0;
-    }
-
-    .summit-year summary {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 18px;
-      cursor: pointer;
-      color: var(--snow);
-      font-weight: 800;
-      list-style: none;
-    }
-
-    .summit-year summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .summit-year summary::after {
-      content: "+";
-      color: var(--trail);
-      font-size: 18px;
-      line-height: 1;
-    }
-
-    .summit-year[open] summary::after {
-      content: "-";
-    }
-
-    .summit-year-count {
-      margin-left: auto;
-      color: var(--dim);
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
     .summit-list {
       display: grid;
-      gap: 10px;
-      margin: 14px 0 0;
+      gap: 7px;
+      max-height: 156px;
+      margin: 0;
       padding: 0;
+      overflow: auto;
       list-style: none;
     }
-
-    .summit-entry {
+    .summit-list li {
       display: grid;
-      grid-template-columns: 58px minmax(0, 1fr);
-      gap: 12px;
-      padding: 12px 0;
-      border-top: 1px solid rgba(247, 243, 232, 0.09);
-    }
-
-    .summit-date {
-      color: var(--moss);
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .summit-name {
-      display: block;
-      color: var(--ink);
-      font-weight: 800;
-      line-height: 1.25;
-    }
-
-    .summit-meta {
-      display: block;
-      margin-top: 4px;
+      grid-template-columns: 54px 1fr auto;
+      gap: 10px;
+      align-items: baseline;
       color: var(--muted);
       font-size: 13px;
       line-height: 1.35;
     }
-
-    .contact-links {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 11px;
-      margin-top: 4px;
+    .summit-date {
+      color: var(--quiet);
+      text-transform: uppercase;
     }
-
-    .contact-links a {
+    .summit-name {
+      color: var(--ink);
+    }
+    .summit-meta {
+      color: var(--quiet);
+      white-space: nowrap;
+    }
+    .peak-source {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .peak-source:hover {
+      color: var(--accent);
+    }
+    .elsewhere {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 18px;
-      min-height: 48px;
-      padding: 0 14px;
-      border: 1px solid rgba(247, 243, 232, 0.14);
-      border-radius: 8px;
-      background: rgba(247, 243, 232, 0.075);
-      color: var(--ink);
-      font-size: 14px;
-      font-weight: 800;
+      gap: 24px;
+      padding: 24px 0 36px;
     }
-
-    .contact-links a::after {
-      content: "->";
-      color: var(--trail);
-      font-weight: 700;
+    .elsewhere-label {
+      color: var(--quiet);
+      font-size: 12px;
+      text-transform: uppercase;
     }
-
-    .scope-list {
-      display: grid;
-      gap: 12px;
-      margin: 24px 0 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .scope-list li {
+    .links {
       display: flex;
-      gap: 12px;
-      align-items: flex-start;
-    }
-
-    .scope-list li::before {
-      content: "";
-      flex: 0 0 auto;
-      width: 8px;
-      height: 8px;
-      margin-top: 9px;
-      border-radius: 50%;
-      background: var(--trail);
-      box-shadow: 0 0 0 6px rgba(223, 143, 79, 0.14);
-    }
-
-    .progress {
-      position: fixed;
-      z-index: 22;
-      right: clamp(18px, 4vw, 46px);
-      top: 50%;
-      display: grid;
-      gap: 12px;
-      transform: translateY(-50%);
-    }
-
-    .progress a {
-      width: 10px;
-      height: 10px;
-      border: 1px solid rgba(247, 243, 232, 0.56);
-      border-radius: 999px;
-      background: rgba(247, 243, 232, 0.10);
-      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
-    }
-
-    .progress a.is-active {
-      transform: scale(1.55);
-      border-color: var(--trail);
-      background: var(--trail);
-    }
-
-    .scroll-cue {
-      position: fixed;
-      z-index: 20;
-      left: clamp(20px, 5vw, 64px);
-      bottom: 28px;
-      display: inline-flex;
-      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
       gap: 10px;
-      color: var(--dim);
-      font-size: 13px;
     }
-
-    .scroll-cue::after {
+    .links a {
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      padding: 9px 12px;
+      color: var(--muted);
+      background: rgba(255,255,255,.018);
+    }
+    .links a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .dots {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      width: min(180px, 100%);
+    }
+    .dots button {
+      height: 20px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+    .dots button::before {
       content: "";
-      width: 42px;
-      height: 1px;
-      background: var(--dim);
+      display: block;
+      height: 2px;
+      background: var(--line);
     }
-
-    @media (max-width: 820px) {
-      body {
-        background-attachment: scroll;
+    .dots button::after {
+      content: "";
+      display: block;
+      height: 2px;
+      margin-top: -2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+    .dots button.active::after {
+      animation: progress var(--duration) linear forwards;
+    }
+    @keyframes progress {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+    @keyframes inner-slide {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
       }
-
-      .site-nav {
-        height: auto;
-        min-height: var(--nav-h);
-        align-items: flex-start;
-        padding: 14px 18px 0;
-      }
-
-      .brand {
-        padding-top: 8px;
-      }
-
-      .nav-links {
-        max-width: 58vw;
-        overflow-x: auto;
-        justify-content: flex-start;
-        border-radius: 20px;
-      }
-
-      .nav-links a {
-        min-width: auto;
-        white-space: nowrap;
-      }
-
-      .frame {
-        padding: 112px 20px 48px;
-      }
-
-      .frame-inner {
-        grid-template-columns: 1fr;
-      }
-
-      .cards {
-        grid-template-columns: 1fr;
-      }
-
-      .summit-stats {
-        grid-template-columns: 1fr;
-      }
-
-      .contact-links {
-        grid-template-columns: 1fr;
-      }
-
-      .timeline li,
-      .metric,
-      .summit-entry {
-        grid-template-columns: 1fr;
-        gap: 6px;
-      }
-
-      .progress,
-      .scroll-cue {
-        display: none;
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
-
     @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
+      .frame { transition: none; }
+      .signal-button { transition: none; }
+      .signal-button.active { transform: none; }
+      .signal-detail.active { animation: none; }
+      .dots button.active::after { animation: none; transform: scaleX(1); }
+    }
+    @media (max-width: 1060px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 42px;
+        min-height: auto;
       }
-
-      main {
-        scroll-snap-type: none;
+      .intro { max-width: 820px; }
+      .reel { min-height: 560px; }
+      .reel-window { min-height: 382px; }
+    }
+    @media (max-width: 720px) {
+      .wrap { width: min(100% - 28px, 1180px); }
+      nav, nav div { flex-wrap: wrap; gap: 14px; }
+      .hero { padding: 48px 0 56px; }
+      .name { font-size: 64px; }
+      .lead { font-size: 27px; }
+      .reel { min-height: 590px; padding: 22px; }
+      .reel-window { min-height: 520px; margin: 22px 0 30px; }
+      .frame h2 { font-size: 38px; }
+      .frame p { font-size: 16px; }
+      .signal-board {
+        grid-template-columns: 1fr;
+        gap: 20px;
       }
-
-      .frame-inner,
-      .button,
-      .nav-links a,
-      .progress a {
-        transition: none;
+      .signal-list {
+        grid-template-columns: 1fr 1fr;
+        column-gap: 18px;
+        row-gap: 10px;
+      }
+      .signal-detail {
+        min-height: 150px;
+        padding-top: 0;
+      }
+      .signal-detail h3 {
+        font-size: 27px;
+      }
+      .reel-foot { align-items: flex-start; flex-direction: column; }
+      .dots { width: 100%; }
+      .sidequest,
+      .elsewhere {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+      .quest-dial { grid-template-columns: 1fr; }
+      .quest-panels { min-height: 0; }
+      .peaks-view-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .peak-stats {
+        grid-template-columns: 1fr 1fr;
+      }
+      .summit-list li {
+        grid-template-columns: 1fr;
+        gap: 2px;
+      }
+      .summit-meta {
+        white-space: normal;
+      }
+      .links {
+        justify-content: flex-start;
       }
     }
   </style>
 </head>
 <body>
-  <nav class="site-nav" aria-label="Primary">
-    <a class="brand" href="#home" aria-label="Bala Ramsha home">
-      <img class="brand-mark" src="img/profilepic.jpg" alt="" aria-hidden="true">
-      <span>Bala Ramsha</span>
-    </a>
-    <div class="nav-links">
-      <a href="#home">Home</a>
-      <a href="#systems">Current</a>
-      <a href="#work">Work</a>
-      <a href="#projects">Projects</a>
-      <a href="#peaks">Peaks</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </nav>
-
-  <div class="progress" aria-hidden="true">
-    <a href="#home"></a>
-    <a href="#systems"></a>
-    <a href="#work"></a>
-    <a href="#projects"></a>
-    <a href="#peaks"></a>
-    <a href="#contact"></a>
-  </div>
-
-  <main id="slides" tabindex="-1">
-    <section class="frame" id="home" data-title="Home">
-      <div class="frame-inner">
-        <div>
-          <p class="kicker">Systems | Summits | Stories</p>
-          <h1>Bala Ramsha</h1>
-          <p class="lede">Engineer by day. Climber and writer after hours.</p>
-          <div class="actions">
-            <a class="button primary" href="#systems">Enter scope</a>
-            <a class="button" href="#peaks">Recent summits</a>
-          </div>
-        </div>
-        <aside class="panel" aria-label="Profile summary">
-          <h3>Current focus</h3>
-          <p>Tech Lead on Twilio Voice Connectivity platform services, based in San Francisco.</p>
-          <ul class="scope-list">
-            <li>Building reliable, scalable systems with a focus on latency, capacity, and storage efficiency.</li>
-            <li>Earlier systems work across platform services at Amazon Alexa and fraud modeling at Expedia.</li>
-          </ul>
-        </aside>
+  <main class="wrap">
+    <nav>
+      <a class="brand" href="#">Bala Ramsha</a>
+      <div>
+        <a href="#systems">Systems</a>
+        <a href="#summits" data-nav-quest="1">Summits</a>
+        <a href="#stories" data-nav-quest="2">Stories</a>
       </div>
-    </section>
+    </nav>
 
-    <section class="frame" id="systems" data-title="Current work">
-      <div class="frame-inner">
-        <div>
-          <p class="kicker">Current work</p>
-          <h2>Scaling Voice Connectivity systems</h2>
-          <p class="lede">Recent work at Twilio centers on scaling routing infrastructure, simplifying permissions, improving observability, and modernizing critical service foundations.</p>
-          <div class="cards">
-            <article class="mini-card">
-              <span>Routing</span>
-              <h3>Capacity and latency</h3>
-              <p>Rearchitected the routing stack to improve scalability and reduce latency.</p>
-            </article>
-            <article class="mini-card">
-              <span>Permissions</span>
-              <h3>Data shape matters</h3>
-              <p>Led a permission architecture redesign to improve storage efficiency.</p>
-            </article>
-            <article class="mini-card">
-              <span>Migration</span>
-              <h3>Reliability under change</h3>
-              <p>Modernized services through containerization, cellularization, and multi-region availability.</p>
-            </article>
-            <article class="mini-card">
-              <span>Observability</span>
-              <h3>Know before users do</h3>
-              <p>Built service fingerprinting capabilities to improve product reporting and operational visibility.</p>
-            </article>
-          </div>
-        </div>
-        <aside class="panel" aria-label="Production wins">
-          <h3>Production wins</h3>
-          <ul class="metrics">
-            <li class="metric"><strong>10x</strong><span>route configuration capacity</span></li>
-            <li class="metric"><strong>70%</strong><span>API latency reduction</span></li>
-            <li class="metric"><strong>250x</strong><span>storage efficiency</span></li>
-          </ul>
-        </aside>
+    <header class="hero">
+      <div class="intro">
+        <div class="eyebrow">Systems | Summits | Stories</div>
+        <h1 class="name">Bala Ramsha</h1>
+        <p class="lead"><span class="lead-strong">Between reliable systems,</span> <span class="lead-mid">jagged slopes,</span> <span class="lead-soft">and writing</span> <span class="lead-glint">grand adventures.</span></p>
       </div>
-    </section>
 
-    <section class="frame" id="work" data-title="Work">
-      <div class="frame-inner">
-        <div>
-          <p class="kicker">Work arc</p>
-          <h2>Systems built for latency, scale, and trust.</h2>
-          <p class="lede">I have spent my career close to backend systems with high traffic, real feedback loops, and enough operational weight to make design choices matter.</p>
-          <ol class="timeline">
-            <li>
-              <time>2020-now</time>
-              <span><strong>Twilio</strong> Tech Lead on the Voice Connectivity platform.</span>
-            </li>
-            <li>
-              <time>2017-2019</time>
-              <span><strong>Amazon Alexa</strong> Full-stack and platform work across Java services, Rails tooling, and analytics.</span>
-            </li>
-            <li>
-              <time>2016-2017</time>
-              <span><strong>Expedia</strong> Backend services for fraud modeling, real-time scoring, shadow evaluation, and big-data processing optimization.</span>
-            </li>
-          </ol>
-        </div>
-        <aside class="panel" aria-label="Education and toolkit">
-          <h3>Education</h3>
-          <div class="education-list">
-            <div class="education-item">
-              <strong>Master of Computer Science</strong>
-              <span>University of Illinois Urbana-Champaign, Illinois</span>
-            </div>
-            <div class="education-item">
-              <strong>Bachelor of Engineering in Computer Science</strong>
-              <span>R. V. College of Engineering, Bangalore</span>
-            </div>
-          </div>
-          <div class="tag-list" aria-label="Technical skills">
-            <span>Java</span>
-            <span>Python</span>
-            <span>React</span>
-            <span>AWS Aurora</span>
-            <span>Redis</span>
-            <span>Kafka</span>
-            <span>DynamoDB</span>
-            <span>SQS/SNS</span>
-            <span>Lambda</span>
-            <span>Elasticsearch</span>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="frame" id="projects" data-title="Projects">
-      <div class="frame-inner">
-        <div>
-          <p class="kicker">Personal and Academic Projects</p>
-          <h2>Learning by building.</h2>
-          <p class="lede">Distributed systems, applied ML, and search projects from school and side quests.</p>
-          <div class="cards">
-            <article class="mini-card">
-              <span>Distributed systems</span>
-              <h3>Configurable consistency</h3>
-              <p>Implemented a distributed key-value storage system with configurable consistency controls.</p>
-            </article>
-            <article class="mini-card">
-              <span>Research systems</span>
-              <h3>Peer-to-peer lookup</h3>
-              <p>Implemented a peer-to-peer lookup service based on a distributed systems research paper.</p>
-            </article>
-            <article class="mini-card">
-              <span>Machine learning</span>
-              <h3>Answerable questions</h3>
-              <p>Designed an end-to-end ML system to identify machine-answerable questions in tweets.</p>
-            </article>
-            <article class="mini-card">
-              <span>Cloud resilience</span>
-              <h3>TensorFlow APIs</h3>
-              <p>Improved resilience of Google TensorFlow cloud APIs.</p>
-            </article>
-          </div>
-        </div>
-        <aside class="panel" aria-label="Academic and research work">
-          <h3>Research thread</h3>
-          <ul class="scope-list">
-            <li>
-              <div>
-                <strong>Graduate Assistant @ UIUC Computer Science</strong>
-                <ul class="sub-list">
-                  <li>Built tools for information extraction and data analysis.</li>
-                  <li>Designed and optimized search APIs using grid search and machine learning models.</li>
-                </ul>
+      <aside id="systems" class="reel" data-reel aria-label="Bala Ramsha highlight reel">
+        <div class="reel-head"><span></span><span class="counter" data-counter>01 / 03</span></div>
+        <div class="reel-window">
+          <article class="frame active">
+            <div class="frame-number">current work</div>
+            <p class="work-intro">Recent work at Twilio centers on scaling routing infrastructure, simplifying permissions, improving observability, and modernizing critical service foundations.</p>
+            <div class="signal-board">
+              <div class="signal-list" aria-label="Current work signals">
+                <button class="signal-button active" type="button" data-signal="0"><span>Routing</span><strong>Capacity and latency</strong></button>
+                <button class="signal-button" type="button" data-signal="1"><span>Permissions</span><strong>Data shape matters</strong></button>
+                <button class="signal-button" type="button" data-signal="2"><span>Migration</span><strong>Reliability under change</strong></button>
+                <button class="signal-button" type="button" data-signal="3"><span>Observability</span><strong>Know before users do</strong></button>
               </div>
-            </li>
-          </ul>
-        </aside>
-      </div>
-    </section>
+              <div class="signal-details">
+                <div class="signal-detail active">
+                  <h3>Capacity and latency</h3>
+                  <p>Rearchitected the routing stack to improve scalability and reduce latency.</p>
+                </div>
+                <div class="signal-detail">
+                  <h3>Data shape matters</h3>
+                  <p>Led a permission architecture redesign to improve storage efficiency.</p>
+                </div>
+                <div class="signal-detail">
+                  <h3>Reliability under change</h3>
+                  <p>Modernized services through containerization, cellularization, and multi-region availability.</p>
+                </div>
+                <div class="signal-detail">
+                  <h3>Know before users do</h3>
+                  <p>Built service fingerprinting capabilities to improve product reporting and operational visibility.</p>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="frame">
+            <div class="frame-number">work arc</div>
+            <p class="work-intro">Earlier work moved across conversational platforms, fraud modeling systems, content delivery roots, and research-heavy internal tooling.</p>
+            <div class="signal-board">
+              <div class="signal-list" aria-label="Work arc signals">
+                <button class="signal-button active" type="button" data-signal="0"><span>Amazon Alexa</span><strong>Personality platform</strong></button>
+                <button class="signal-button" type="button" data-signal="1"><span>Amazon Alexa</span><strong>Consistency under churn</strong></button>
+                <button class="signal-button" type="button" data-signal="2"><span>Expedia</span><strong>Models near production</strong></button>
+                <button class="signal-button" type="button" data-signal="3"><span>Akamai</span><strong>Operational roots</strong></button>
+              </div>
+              <div class="signal-details">
+                <div class="signal-detail active">
+                  <h3>Personality platform</h3>
+                  <p>Built backend services and tools for content workflows, conversational CX, experimentation, and analytics.</p>
+                </div>
+                <div class="signal-detail">
+                  <h3>Consistency under churn</h3>
+                  <p>Designed DynamoDB locking patterns for eventual-consistency NLU catalog updates.</p>
+                </div>
+                <div class="signal-detail">
+                  <h3>Models near production</h3>
+                  <p>Worked on fraud scoring APIs, shadow model execution, distributed sampling, and data reduction.</p>
+                </div>
+                <div class="signal-detail">
+                  <h3>Operational roots</h3>
+                  <p>Started with content delivery, internal tools, automation, test plans, and performance bottlenecks.</p>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="frame">
+            <div class="frame-number">selected projects</div>
+            <p class="work-intro">Selected projects trace the same curiosity at smaller scale: distributed systems, machine learning, search, and rough-edged prototypes that taught durable lessons.</p>
+            <div class="signal-board">
+              <div class="signal-list" aria-label="Selected project signals">
+                <button class="signal-button active" type="button" data-signal="0"><span>Valkyrie</span><strong>Consistency choices</strong></button>
+                <button class="signal-button" type="button" data-signal="1"><span>Chord</span><strong>Peer lookup</strong></button>
+                <button class="signal-button" type="button" data-signal="2"><span>Classifiers</span><strong>Signals into predictions</strong></button>
+                <button class="signal-button" type="button" data-signal="3"><span>Search</span><strong>Crawl, rank, retrieve</strong></button>
+              </div>
+              <div class="signal-details">
+                <div class="signal-detail active">
+                  <h3>Consistency choices</h3>
+                  <p>Built a distributed key-value store with linearizability, sequential consistency, eventual consistency, and repair.</p>
+                </div>
+                <div class="signal-detail">
+                  <h3>Peer lookup</h3>
+                  <p>Implemented distributed key lookup and node joins with reduced message exchange.</p>
+                </div>
+                <div class="signal-detail">
+                  <h3>Signals into predictions</h3>
+                  <p>Modeled tweet questions, driver fingerprints, and movie revenue from messy feature spaces.</p>
+                </div>
+                <div class="signal-detail">
+                  <h3>Crawl, rank, retrieve</h3>
+                  <p>Built a focused crawler and vertical search engine with link and content analysis.</p>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+        <div class="reel-foot">
+          <div class="dots" aria-label="Choose highlight">
+            <button class="active" type="button" aria-label="Show current work"></button>
+            <button type="button" aria-label="Show work arc"></button>
+            <button type="button" aria-label="Show selected projects"></button>
+          </div>
+        </div>
+      </aside>
+    </header>
 
-    <section class="frame" id="peaks" data-title="Peaks">
-      <div class="frame-inner">
-        <div>
-          <p class="kicker">Peaks</p>
-          <h2>Above tree line</h2>
-          <p class="lede">Standing on the shoulders of giants to see the world anew.</p>
-          <div class="summit-stats" aria-label="Summit stats">
-            <div class="summit-stat">
-              <span>Latest</span>
-              <strong id="summit-latest">-</strong>
-            </div>
-            <div class="summit-stat">
-              <span>This year</span>
-              <strong id="summit-current-year">-</strong>
-            </div>
-            <div class="summit-stat">
-              <span>Total logged</span>
-              <strong id="summit-total">-</strong>
-            </div>
-            <div class="summit-stat">
-              <span>High point</span>
-              <strong id="summit-highest">-</strong>
+    <section id="summits" class="sidequest">
+      <div>
+        <div class="sidequest-label">side quest</div>
+        <h2 class="quest-title" data-quest-title>Summits, storms, stories.</h2>
+      </div>
+      <div class="quest-control">
+        <p class="quest-copy" data-quest-copy>Off the professional reel, the compass tilts toward jagged slopes, long roads, bikes, notebooks, fantasy worlds, and the occasional poem that refuses to stay unwritten.</p>
+        <div class="quest-dial" aria-label="Choose side quest mode">
+          <button type="button" data-quest-index="0">Systems</button>
+          <button class="active" type="button" data-quest-index="1">Summits</button>
+          <button type="button" data-quest-index="2">Stories</button>
+        </div>
+        <div class="quest-panels">
+          <div class="quest-panel active" data-quest-panel="1">
+            <div class="peaks-view">
+              <div class="peaks-view-head">
+                <span>Peaks</span>
+              </div>
+              <h3>Above tree line</h3>
+              <p>Standing on the shoulders of giants to see the world anew.</p>
+              <div class="peak-stats">
+                <div class="peak-stat"><span>Latest</span><strong>Pikers Peak</strong></div>
+                <div class="peak-stat"><span>This year</span><strong>20</strong></div>
+                <div class="peak-stat"><span>Total logged</span><strong>76</strong></div>
+                <div class="peak-stat"><span>High point</span><strong>Mount Rainier</strong></div>
+              </div>
+              <div class="summit-log">
+                <div class="summit-log-title">Summit log</div>
+                <ol class="summit-list">
+                  <li><span class="summit-date">Aug 19</span><span class="summit-name">Pikers Peak</span><span class="summit-meta">11,657 ft / USA-WA</span></li>
+                  <li><span class="summit-date">Aug 19</span><span class="summit-name">Mount Adams</span><span class="summit-meta">12,280 ft / USA-WA</span></li>
+                  <li><span class="summit-date">Aug 16</span><span class="summit-name">Mount Shasta</span><span class="summit-meta">14,161 ft / USA-CA</span></li>
+                  <li><span class="summit-date">Aug 8</span><span class="summit-name">Duane Bliss Peak</span><span class="summit-meta">8,661 ft / USA-CA</span></li>
+                  <li><span class="summit-date">Aug 8</span><span class="summit-name">South Camp Peak</span><span class="summit-meta">8,868 ft / USA-CA</span></li>
+                  <li><span class="summit-date">Aug 8</span><span class="summit-name">Genoa Peak</span><span class="summit-meta">9,152 ft / USA-CA</span></li>
+                  <li><span class="summit-date">Aug 1</span><span class="summit-name">Granite Chief</span><span class="summit-meta">9,010 ft / USA-CA</span></li>
+                  <li><span class="summit-date">Jul 26</span><span class="summit-name">Maggies Peaks - North Summit</span><span class="summit-meta">8,496 ft / USA-CA</span></li>
+                  <li><span class="summit-date">Jul 26</span><span class="summit-name">Maggies Peaks - South Summit</span><span class="summit-meta">8,665 ft / USA-CA</span></li>
+                  <li><span class="summit-date">Jul 25</span><span class="summit-name">Rubicon Peak</span><span class="summit-meta">9,183 ft / USA-CA</span></li>
+                </ol>
+              </div>
+              <a class="peak-source" href="https://peakbagger.com/climber/ClimbListC.aspx?cid=20549&amp;u=ft&amp;j=-1&amp;y=9999&amp;sort=ascentdated">Full summit record on Peakbagger</a>
             </div>
           </div>
         </div>
-        <aside class="panel summit-panel" aria-label="Summit log">
-          <h3>Summit log</h3>
-          <div class="summit-years" id="summit-years" aria-live="polite">
-            <p>Loading summit log...</p>
-          </div>
-        </aside>
       </div>
     </section>
 
-    <section class="frame" id="contact" data-title="Contact">
-      <div class="frame-inner">
-        <div>
-          <p class="kicker">Contact</p>
-          <h2>Outside work.</h2>
-          <p class="lede">In my spare time, I volunteer, write, read epic fantasy, and find my way outdoors. Current obsessions: redwoods and bouldering.</p>
-        </div>
-        <aside class="panel" aria-label="Contact links">
-          <h3>Find me</h3>
-          <div class="contact-links">
-            <a href="https://www.linkedin.com/in/bala-ramsha/">LinkedIn</a>
-            <a href="https://github.com/moontails">GitHub</a>
-            <a href="https://balaramsha.substack.com">Notes</a>
-            <a href="https://moontails.github.io/heartstrings/">Stories</a>
-          </div>
-        </aside>
+    <section id="stories" class="elsewhere">
+      <div class="elsewhere-label" data-link-label>summits</div>
+      <div class="links" data-links>
+        <a href="https://peakbagger.com/climber/ClimbListC.aspx?cid=20549&amp;u=ft&amp;j=-1&amp;y=9999&amp;sort=ascentdated">Peakbagger</a>
+        <a href="https://www.mountainproject.com/user/200438565/balachander-ramachandran/ticks">Mountain Project</a>
       </div>
     </section>
+
   </main>
 
-  <span class="scroll-cue">Scroll / swipe</span>
-
-  <script src="data/summits.js"></script>
-  <script src="js/summits.js"></script>
-
   <script>
-    const main = document.querySelector("main");
-    const sections = Array.from(document.querySelectorAll(".frame"));
-    const navLinks = Array.from(document.querySelectorAll(".nav-links a"));
-    const progressLinks = Array.from(document.querySelectorAll(".progress a"));
-    const allLinks = [...navLinks, ...progressLinks];
+    (function () {
+      var reel = document.querySelector("[data-reel]");
+      if (!reel) return;
 
-    const setActive = (id) => {
-      sections.forEach((section) => section.classList.toggle("is-visible", section.id === id));
-      allLinks.forEach((link) => {
-        const active = link.getAttribute("href") === `#${id}`;
-        link.classList.toggle("is-active", active);
-        if (link.parentElement.classList.contains("nav-links")) {
-          link.setAttribute("aria-current", active ? "page" : "false");
+      var slides = Array.prototype.slice.call(reel.querySelectorAll(".frame"));
+      var dots = Array.prototype.slice.call(reel.querySelectorAll(".dots button"));
+      var counter = reel.querySelector("[data-counter]");
+      var questTitle = document.querySelector("[data-quest-title]");
+      var questCopy = document.querySelector("[data-quest-copy]");
+      var questButtons = Array.prototype.slice.call(document.querySelectorAll("[data-quest-index]"));
+      var questPanels = Array.prototype.slice.call(document.querySelectorAll("[data-quest-panel]"));
+      var linkLabel = document.querySelector("[data-link-label]");
+      var linkContainer = document.querySelector("[data-links]");
+      var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var active = 0;
+      var timer = null;
+      var signalTimer = null;
+      var accents = {
+        gold: { color: "#d7ad45", soft: "rgba(215, 173, 69, .12)" },
+        ice: { color: "#e7f2ff", soft: "rgba(231, 242, 255, .11)" },
+        alpine: { color: "#7bd8b2", soft: "rgba(123, 216, 178, .11)" },
+        blue: { color: "#78aefb", soft: "rgba(120, 174, 251, .11)" },
+        ember: { color: "#f29b64", soft: "rgba(242, 155, 100, .12)" },
+        aurora: { color: "#bba6ff", soft: "rgba(187, 166, 255, .12)" }
+      };
+      var hourlyAccents = [
+        "ice", "ice", "ice", "ice", "ice", "ice",
+        "alpine", "blue", "blue", "alpine", "gold", "gold",
+        "gold", "gold", "gold", "ember", "ember", "ember",
+        "aurora", "aurora", "blue", "ice", "ice", "ice"
+      ];
+      var quests = [
+        {
+          title: "Systems, signals, clean failure.",
+          copy: "Architecture, operations, and the quiet craft of knowing where a system bends before it breaks.",
+          links: [
+            { label: "GitHub", href: "https://github.com/moontails" },
+            { label: "LinkedIn", href: "https://www.linkedin.com/in/bala-ramsha/" }
+          ]
+        },
+        {
+          title: "Summits, storms, stories.",
+          copy: "Jagged slopes, long approaches, crag days, training grounds, and the kind of weather that makes effort feel earned.",
+          links: [
+            { label: "Peakbagger", href: "https://peakbagger.com/climber/ClimbListC.aspx?cid=20549&u=ft&j=-1&y=9999&sort=ascentdated" },
+            { label: "Mountain Project", href: "https://www.mountainproject.com/user/200438565/balachander-ramachandran/ticks" }
+          ]
+        },
+        {
+          title: "Epic fantasy, with poems in orbit.",
+          copy: "A work-in-progress saga, with Desolation Days and Cascadian Nights carrying poems inspired by the same world.",
+          links: [
+            { label: "Epic Fantasy", href: "https://moontails.github.io/heartstrings/" },
+            { label: "Desolation Days", href: "https://desolationdays.substack.com" },
+            { label: "Cascadian Nights", href: "https://cascadiannights.substack.com" }
+          ]
         }
+      ];
+
+      var durations = slides.map(function (slide) {
+        var words = slide.textContent.trim().split(/\s+/).filter(Boolean).length;
+        return Math.max(5600, Math.min(11200, words * 285));
       });
-    };
 
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      function getAccentName() {
+        var params = new URLSearchParams(window.location.search);
+        var requested = params.get("accent");
 
-      if (visible) {
-        setActive(visible.target.id);
-        if (history.replaceState) {
-          history.replaceState(null, "", `#${visible.target.id}`);
+        if (requested && accents[requested]) return requested;
+
+        return hourlyAccents[new Date().getHours()];
+      }
+
+      function applyAccent() {
+        var accentName = getAccentName();
+        var accent = accents[accentName] || accents.gold;
+
+        document.documentElement.style.setProperty("--accent", accent.color);
+        document.documentElement.style.setProperty("--accent-soft", accent.soft);
+        document.documentElement.setAttribute("data-accent", accentName);
+      }
+
+      function show(index) {
+        active = (index + slides.length) % slides.length;
+        var duration = durations[active];
+
+        reel.style.setProperty("--duration", duration + "ms");
+        counter.textContent = String(active + 1).padStart(2, "0") + " / " + String(slides.length).padStart(2, "0");
+
+        slides.forEach(function (slide, slideIndex) {
+          slide.classList.toggle("active", slideIndex === active);
+        });
+
+        dots.forEach(function (dot, dotIndex) {
+          dot.classList.toggle("active", dotIndex === active);
+        });
+
+        startSignalCycle(slides[active], duration);
+
+        clearTimeout(timer);
+        if (!reducedMotion) {
+          timer = setTimeout(function () {
+            show(active + 1);
+          }, duration);
         }
       }
-    }, {
-      root: main,
-      threshold: [0.42, 0.66, 0.82]
-    });
 
-    sections.forEach((section) => observer.observe(section));
-    setActive(location.hash ? location.hash.slice(1) : "home");
+      dots.forEach(function (dot, index) {
+        dot.addEventListener("click", function () {
+          show(index);
+        });
+      });
 
-    const move = (direction) => {
-      const current = sections.findIndex((section) => section.classList.contains("is-visible"));
-      const next = Math.min(sections.length - 1, Math.max(0, current + direction));
-      sections[next].scrollIntoView({ behavior: "smooth", block: "start" });
-    };
+      function selectSignal(slide, index) {
+        var signalButtons = Array.prototype.slice.call(slide.querySelectorAll("[data-signal]"));
+        var signalDetails = Array.prototype.slice.call(slide.querySelectorAll(".signal-detail"));
 
-    document.addEventListener("keydown", (event) => {
-      if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.altKey) {
-        return;
+        if (!signalButtons.length || !signalDetails.length) return;
+
+        signalButtons.forEach(function (button, buttonIndex) {
+          button.classList.toggle("active", buttonIndex === index);
+          button.setAttribute("aria-pressed", buttonIndex === index ? "true" : "false");
+        });
+
+        signalDetails.forEach(function (detail, detailIndex) {
+          detail.classList.toggle("active", detailIndex === index);
+        });
       }
 
-      if (["ArrowDown", "PageDown", " "].includes(event.key)) {
-        event.preventDefault();
-        move(1);
+      function startSignalCycle(slide, duration) {
+        var signalButtons = Array.prototype.slice.call(slide.querySelectorAll("[data-signal]"));
+
+        clearInterval(signalTimer);
+        selectSignal(slide, 0);
+
+        if (reducedMotion || signalButtons.length < 2) return;
+
+        signalTimer = setInterval(function () {
+          var current = signalButtons.findIndex(function (button) {
+            return button.classList.contains("active");
+          });
+          var next = (current + 1) % signalButtons.length;
+          selectSignal(slide, next);
+        }, Math.max(1800, Math.floor(duration / signalButtons.length)));
       }
 
-      if (["ArrowUp", "PageUp"].includes(event.key)) {
-        event.preventDefault();
-        move(-1);
+      slides.forEach(function (slide) {
+        var signalButtons = Array.prototype.slice.call(slide.querySelectorAll("[data-signal]"));
+
+        signalButtons.forEach(function (button) {
+          button.addEventListener("click", function () {
+            var index = Number(button.getAttribute("data-signal"));
+
+            selectSignal(slide, index);
+          });
+        });
+      });
+
+      function updateQuest() {
+        var activeQuest = questButtons.find(function (button) {
+          return button.classList.contains("active");
+        });
+        var index = activeQuest ? Number(activeQuest.getAttribute("data-quest-index")) : 1;
+        var quest = quests[index];
+
+        if (!questTitle || !questCopy || !linkContainer || !linkLabel) return;
+        questTitle.textContent = quest.title;
+        questCopy.textContent = quest.copy;
+        linkLabel.textContent = ["systems", "summits", "stories"][index];
+        linkContainer.innerHTML = "";
+
+        questPanels.forEach(function (panel) {
+          var activePanel = panel.getAttribute("data-quest-panel") === String(index);
+          panel.classList.toggle("active", activePanel);
+          panel.setAttribute("aria-hidden", activePanel ? "false" : "true");
+        });
+
+        quest.links.forEach(function (link) {
+          var anchor = document.createElement("a");
+          anchor.href = link.href;
+          anchor.textContent = link.label;
+          linkContainer.appendChild(anchor);
+        });
       }
-    });
+
+      questButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          questButtons.forEach(function (otherButton) {
+            otherButton.classList.toggle("active", otherButton === button);
+          });
+          updateQuest();
+        });
+      });
+
+      document.querySelectorAll("[data-nav-quest]").forEach(function (link) {
+        link.addEventListener("click", function () {
+          var index = link.getAttribute("data-nav-quest");
+          var target = document.querySelector('[data-quest-index="' + index + '"]');
+          if (target) target.click();
+        });
+      });
+
+      updateQuest();
+      applyAccent();
+      setInterval(applyAccent, 60000);
+
+      show(0);
+    })();
   </script>
 </body>
 </html>
