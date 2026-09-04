@@ -249,7 +249,7 @@ window.SUMMITS = [
   {
     "date": "2019-06-30",
     "sortKey": "2019-06-30",
-    "peak": "Mount Rainier",
+    "peak": "Tahoma",
     "location": "USA-WA",
     "elevation": "14,406 ft"
   },
@@ -431,7 +431,7 @@ window.SUMMITS = [
   {
     "date": "2018-04-21",
     "sortKey": "2018-04-21 b",
-    "peak": "Mount Saint Helens",
+    "peak": "Loowit",
     "location": "USA-WA",
     "elevation": "8,325 ft"
   },

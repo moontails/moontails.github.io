@@ -31,44 +31,47 @@
     a,
     .eyebrow,
     .lead-glint,
-    .counter,
     .frame-number,
     .signal-button,
-    .sidequest-label,
-    .quest-dial button,
-    .links a,
+    .story-links a,
     .dots button::after {
       transition: border-color 260ms ease, background 260ms ease, color 260ms ease, transform 240ms ease;
     }
     .wrap { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
-    nav {
-      min-height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      color: var(--muted);
-      border-bottom: 1px solid var(--line);
-      font-size: 13px;
-    }
-    nav div { display: flex; gap: 22px; }
-    nav a:hover { color: var(--accent); }
-    .brand { color: var(--ink); font-weight: 680; }
     .hero {
-      min-height: calc(100vh - 72px);
+      min-height: 100vh;
       display: grid;
       grid-template-columns: minmax(420px, .92fr) minmax(540px, 1.08fr);
       gap: 64px;
       align-items: center;
-      padding: 62px 0 70px;
+      padding: 76px 0;
     }
     .intro { max-width: 610px; }
     .eyebrow {
       margin-bottom: 24px;
-      color: var(--accent);
       font-size: 12px;
       font-weight: 780;
       text-transform: uppercase;
+    }
+    .mode-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: var(--quiet);
+    }
+    .mode-nav a {
+      color: inherit;
+      opacity: .58;
+    }
+    .mode-nav a + a::before {
+      content: "|";
+      margin-right: 8px;
+      color: var(--quiet);
+      opacity: .45;
+    }
+    .mode-nav a.active {
+      color: var(--accent);
+      opacity: 1;
     }
     h1, h2, h3, p { margin-top: 0; }
     .name {
@@ -78,12 +81,23 @@
       letter-spacing: 0;
     }
     .lead {
+      display: grid;
       max-width: 620px;
       margin: 28px 0 0;
       color: var(--muted);
       font-size: 34px;
       line-height: 1.16;
       letter-spacing: 0;
+    }
+    .lead-line {
+      grid-area: 1 / 1;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 360ms ease, visibility 360ms;
+    }
+    .lead-line.active {
+      opacity: 1;
+      visibility: visible;
     }
     .lead-strong {
       color: var(--ink);
@@ -103,18 +117,18 @@
     .reel {
       min-height: 590px;
       display: grid;
-      grid-template-rows: auto 1fr auto;
-      padding: 32px;
+      grid-template-rows: auto 1fr;
+      padding: 34px 32px 32px;
       border: 1px solid var(--line);
       border-radius: 6px;
       background:
         linear-gradient(180deg, rgba(255,255,255,.025), transparent 34%),
         var(--panel);
       box-shadow: 0 28px 90px rgba(0, 0, 0, .26);
-      overflow: hidden;
+      /* Clip transitions without creating a scroll container for fragment navigation. */
+      overflow: clip;
     }
-    .reel-head,
-    .reel-foot {
+    .reel-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -123,17 +137,70 @@
       font-size: 12px;
       text-transform: uppercase;
     }
-    .counter { color: var(--accent); }
+    .reel-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .pause-button {
+      width: 18px;
+      height: 18px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      padding: 0;
+      color: var(--quiet);
+      background: transparent;
+      cursor: pointer;
+    }
+    .pause-icon,
+    .play-icon {
+      width: 10px;
+      height: 10px;
+    }
+    .pause-icon {
+      display: grid;
+      grid-template-columns: 2px 2px;
+      justify-content: center;
+      gap: 4px;
+    }
+    .pause-icon span {
+      display: block;
+      border-radius: 1px;
+      background: currentColor;
+    }
+    .play-icon {
+      display: none;
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 8px solid currentColor;
+      transform: translateX(1px);
+    }
+    .pause-button.active .pause-icon {
+      display: none;
+    }
+    .pause-button.active .play-icon {
+      display: block;
+    }
+    .pause-button:hover,
+    .pause-button.active {
+      color: var(--accent);
+    }
     .reel-window {
       position: relative;
       min-height: 398px;
-      margin: 18px 0 28px;
+      margin: 34px 0 0;
     }
     .frame {
       position: absolute;
       inset: 0;
       display: grid;
       align-content: start;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--line) transparent;
       opacity: 0;
       transform: translateY(14px);
       transition: opacity 540ms ease, transform 540ms ease;
@@ -166,6 +233,59 @@
       line-height: 1.55;
     }
     .frame p:last-child { margin-bottom: 0; }
+    .frame[data-mode="summits"] .peaks-view {
+      gap: 14px;
+    }
+    .frame[data-mode="summits"] .summit-list {
+      max-height: 126px;
+    }
+    .story-links {
+      display: grid;
+      gap: 10px;
+      max-width: 560px;
+      margin-top: 8px;
+    }
+    .story-links a {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 20px;
+      gap: 5px 16px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 17px 18px;
+      background: linear-gradient(120deg, rgba(255,255,255,.055), rgba(255,255,255,.015));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.035);
+      color: var(--muted);
+    }
+    .story-links a:hover,
+    .story-links a:focus-visible {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+    .story-links a:focus-visible {
+      outline: 1px solid var(--accent);
+      outline-offset: -3px;
+    }
+    .story-links strong {
+      grid-column: 1;
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 620;
+    }
+    .story-links span {
+      grid-column: 1;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+    .story-links .story-arrow {
+      grid-column: 2;
+      grid-row: 1 / 3;
+      align-self: center;
+      color: var(--accent);
+      font-size: 20px;
+      line-height: 1;
+    }
     .work-intro {
       max-width: 640px;
       margin-bottom: 28px;
@@ -247,80 +367,9 @@
       font-size: 18px;
       line-height: 1.5;
     }
-    .sidequest {
-      display: grid;
-      grid-template-columns: .9fr 1.1fr;
-      gap: 42px;
-      align-items: center;
-      padding: 34px 0;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-    .sidequest-label {
-      color: var(--accent);
-      font-size: 12px;
-      font-weight: 780;
-      text-transform: uppercase;
-    }
-    .quest-title {
-      margin: 10px 0 0;
-      color: var(--ink);
-      font-size: 30px;
-      line-height: 1.12;
-    }
-    .quest-control {
-      display: grid;
-      gap: 18px;
-    }
-    .quest-copy {
-      min-height: 72px;
-      color: var(--muted);
-      font-size: 19px;
-      line-height: 1.45;
-    }
-    .quest-dial {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
-    .quest-dial button {
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 9px 12px;
-      color: var(--quiet);
-      background: rgba(255,255,255,.018);
-      cursor: pointer;
-      font-size: 12px;
-      text-transform: uppercase;
-    }
-    .quest-dial button.active {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: var(--accent-soft);
-    }
-    .quest-panel {
-      display: none;
-      border-top: 1px solid var(--line);
-      padding-top: 18px;
-    }
-    .quest-panel.active {
-      display: block;
-      animation: inner-slide 420ms ease both;
-    }
     .peaks-view {
       display: grid;
       gap: 18px;
-    }
-    .peaks-view-head span {
-      color: var(--accent);
-      font-size: 12px;
-      font-weight: 760;
-      text-transform: uppercase;
-    }
-    .peaks-view-head strong {
-      color: var(--ink);
-      font-size: 15px;
-      font-weight: 560;
     }
     .peaks-view h3 {
       margin: 0;
@@ -338,8 +387,10 @@
     }
     .peak-stats {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      max-width: 520px;
+      margin: 4px 0 10px;
     }
     .peak-stat {
       border-top: 1px solid var(--line);
@@ -368,6 +419,42 @@
       font-size: 12px;
       font-weight: 740;
       text-transform: uppercase;
+    }
+    .summit-years {
+      display: grid;
+      gap: 9px;
+    }
+    .summit-year {
+      border-top: 1px solid var(--line);
+      padding-top: 9px;
+    }
+    .summit-year summary {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 14px;
+      color: var(--ink);
+      cursor: pointer;
+      list-style: none;
+    }
+    .summit-year summary::-webkit-details-marker {
+      display: none;
+    }
+    .summit-year summary strong {
+      color: inherit;
+      font-size: 14px;
+      font-weight: 640;
+    }
+    .summit-year summary span {
+      color: var(--quiet);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+    .summit-year[open] summary strong {
+      color: var(--accent);
+    }
+    .summit-year .summit-list {
+      margin-top: 9px;
     }
     .summit-list {
       display: grid;
@@ -405,41 +492,11 @@
     .peak-source:hover {
       color: var(--accent);
     }
-    .elsewhere {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      padding: 24px 0 36px;
-    }
-    .elsewhere-label {
-      color: var(--quiet);
-      font-size: 12px;
-      text-transform: uppercase;
-    }
-    .links {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-    .links a {
-      border: 1px solid var(--line);
-      border-radius: 3px;
-      padding: 9px 12px;
-      color: var(--muted);
-      background: rgba(255,255,255,.018);
-    }
-    .links a:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: var(--accent-soft);
-    }
     .dots {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      width: min(180px, 100%);
+      grid-template-columns: repeat(var(--dot-count, 3), 1fr);
+      gap: 6px;
+      width: 96px;
     }
     .dots button {
       height: 20px;
@@ -481,6 +538,7 @@
       }
     }
     @media (prefers-reduced-motion: reduce) {
+      .lead-line { transition: none; }
       .frame { transition: none; }
       .signal-button { transition: none; }
       .signal-button.active { transform: none; }
@@ -495,16 +553,15 @@
       }
       .intro { max-width: 820px; }
       .reel { min-height: 560px; }
-      .reel-window { min-height: 382px; }
+      .reel-window { min-height: 392px; }
     }
     @media (max-width: 720px) {
       .wrap { width: min(100% - 28px, 1180px); }
-      nav, nav div { flex-wrap: wrap; gap: 14px; }
-      .hero { padding: 48px 0 56px; }
+      .hero { padding: 44px 0 52px; }
       .name { font-size: 64px; }
       .lead { font-size: 27px; }
-      .reel { min-height: 590px; padding: 22px; }
-      .reel-window { min-height: 520px; margin: 22px 0 30px; }
+      .reel { min-height: 590px; padding: 24px 22px 22px; }
+      .reel-window { min-height: 530px; margin: 30px 0 0; }
       .frame h2 { font-size: 38px; }
       .frame p { font-size: 16px; }
       .signal-board {
@@ -523,19 +580,6 @@
       .signal-detail h3 {
         font-size: 27px;
       }
-      .reel-foot { align-items: flex-start; flex-direction: column; }
-      .dots { width: 100%; }
-      .sidequest,
-      .elsewhere {
-        grid-template-columns: 1fr;
-        display: grid;
-      }
-      .quest-dial { grid-template-columns: 1fr; }
-      .quest-panels { min-height: 0; }
-      .peaks-view-head {
-        align-items: flex-start;
-        flex-direction: column;
-      }
       .peak-stats {
         grid-template-columns: 1fr 1fr;
       }
@@ -546,34 +590,39 @@
       .summit-meta {
         white-space: normal;
       }
-      .links {
-        justify-content: flex-start;
-      }
     }
   </style>
 </head>
 <body>
   <main class="wrap">
-    <nav>
-      <a class="brand" href="#">Bala Ramsha</a>
-      <div>
-        <a href="#systems">Systems</a>
-        <a href="#summits" data-nav-quest="1">Summits</a>
-        <a href="#stories" data-nav-quest="2">Stories</a>
-      </div>
-    </nav>
-
     <header class="hero">
       <div class="intro">
-        <div class="eyebrow">Systems | Summits | Stories</div>
+        <div class="eyebrow mode-nav" aria-label="Choose reel">
+          <a class="active" href="#systems" data-reel-mode="systems">Systems</a>
+          <a href="#summits" data-reel-mode="summits">Summits</a>
+          <a href="#stories" data-reel-mode="stories">Stories</a>
+        </div>
         <h1 class="name">Bala Ramsha</h1>
-        <p class="lead"><span class="lead-strong">Between reliable systems,</span> <span class="lead-mid">jagged slopes,</span> <span class="lead-soft">and writing</span> <span class="lead-glint">grand adventures.</span></p>
+        <p class="lead">
+          <span class="lead-line active" data-lead-mode="systems"><span class="lead-soft">Building</span> <span class="lead-strong">reliable systems.</span></span>
+          <span class="lead-line" data-lead-mode="summits" aria-hidden="true"><span class="lead-soft">Exploring</span> <span class="lead-glint">jagged edges.</span></span>
+          <span class="lead-line" data-lead-mode="stories" aria-hidden="true"><span class="lead-soft">Writing</span> <span class="lead-glint">grand adventures.</span></span>
+        </p>
       </div>
 
       <aside id="systems" class="reel" data-reel aria-label="Bala Ramsha highlight reel">
-        <div class="reel-head"><span></span><span class="counter" data-counter>01 / 03</span></div>
+        <div class="reel-head">
+          <span data-reel-label>Systems</span>
+          <div class="reel-meta">
+            <div class="dots" aria-label="Choose highlight" data-dots></div>
+            <button class="pause-button" type="button" data-pause aria-label="Pause reel" aria-pressed="false">
+              <span class="pause-icon" aria-hidden="true"><span></span><span></span></span>
+              <span class="play-icon" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
         <div class="reel-window">
-          <article class="frame active">
+          <article class="frame active" data-mode="systems">
             <div class="frame-number">current work</div>
             <p class="work-intro">Recent work at Twilio centers on scaling routing infrastructure, simplifying permissions, improving observability, and modernizing critical service foundations.</p>
             <div class="signal-board">
@@ -586,7 +635,7 @@
               <div class="signal-details">
                 <div class="signal-detail active">
                   <h3>Capacity and latency</h3>
-                  <p>Rearchitected the routing stack to improve scalability and reduce latency.</p>
+                  <p>Rearchitected outbound voice routing to be faster, highly available, and self-healing.</p>
                 </div>
                 <div class="signal-detail">
                   <h3>Data shape matters</h3>
@@ -603,7 +652,7 @@
               </div>
             </div>
           </article>
-          <article class="frame">
+          <article class="frame" data-mode="systems">
             <div class="frame-number">work arc</div>
             <p class="work-intro">Earlier work moved across conversational platforms, fraud modeling systems, content delivery roots, and research-heavy internal tooling.</p>
             <div class="signal-board">
@@ -633,11 +682,11 @@
               </div>
             </div>
           </article>
-          <article class="frame">
-            <div class="frame-number">selected projects</div>
-            <p class="work-intro">Selected projects trace the same curiosity at smaller scale: distributed systems, machine learning, search, and rough-edged prototypes that taught durable lessons.</p>
+          <article class="frame" data-mode="systems">
+            <div class="frame-number">projects</div>
+            <p class="work-intro">Side quests during academia.</p>
             <div class="signal-board">
-              <div class="signal-list" aria-label="Selected project signals">
+              <div class="signal-list" aria-label="Project signals">
                 <button class="signal-button active" type="button" data-signal="0"><span>Valkyrie</span><strong>Consistency choices</strong></button>
                 <button class="signal-button" type="button" data-signal="1"><span>Chord</span><strong>Peer lookup</strong></button>
                 <button class="signal-button" type="button" data-signal="2"><span>Classifiers</span><strong>Signals into predictions</strong></button>
@@ -663,72 +712,139 @@
               </div>
             </div>
           </article>
-        </div>
-        <div class="reel-foot">
-          <div class="dots" aria-label="Choose highlight">
-            <button class="active" type="button" aria-label="Show current work"></button>
-            <button type="button" aria-label="Show work arc"></button>
-            <button type="button" aria-label="Show selected projects"></button>
-          </div>
-        </div>
-      </aside>
-    </header>
-
-    <section id="summits" class="sidequest">
-      <div>
-        <div class="sidequest-label">side quest</div>
-        <h2 class="quest-title" data-quest-title>Summits, storms, stories.</h2>
-      </div>
-      <div class="quest-control">
-        <p class="quest-copy" data-quest-copy>Off the professional reel, the compass tilts toward jagged slopes, long roads, bikes, notebooks, fantasy worlds, and the occasional poem that refuses to stay unwritten.</p>
-        <div class="quest-dial" aria-label="Choose side quest mode">
-          <button type="button" data-quest-index="0">Systems</button>
-          <button class="active" type="button" data-quest-index="1">Summits</button>
-          <button type="button" data-quest-index="2">Stories</button>
-        </div>
-        <div class="quest-panels">
-          <div class="quest-panel active" data-quest-panel="1">
+          <article class="frame" data-mode="summits">
+            <div class="frame-number">Above Tree Line</div>
             <div class="peaks-view">
-              <div class="peaks-view-head">
-                <span>Peaks</span>
-              </div>
-              <h3>Above tree line</h3>
-              <p>Standing on the shoulders of giants to see the world anew.</p>
+              <p>Standing on the shoulders of giants.</p>
               <div class="peak-stats">
-                <div class="peak-stat"><span>Latest</span><strong>Pikers Peak</strong></div>
-                <div class="peak-stat"><span>This year</span><strong>20</strong></div>
-                <div class="peak-stat"><span>Total logged</span><strong>76</strong></div>
-                <div class="peak-stat"><span>High point</span><strong>Mount Rainier</strong></div>
+                <div class="peak-stat"><span>Recent</span><strong>Pikers Peak</strong></div>
+                <div class="peak-stat"><span>Highest mark</span><strong>14,406 ft</strong></div>
               </div>
               <div class="summit-log">
                 <div class="summit-log-title">Summit log</div>
-                <ol class="summit-list">
-                  <li><span class="summit-date">Aug 19</span><span class="summit-name">Pikers Peak</span><span class="summit-meta">11,657 ft / USA-WA</span></li>
-                  <li><span class="summit-date">Aug 19</span><span class="summit-name">Mount Adams</span><span class="summit-meta">12,280 ft / USA-WA</span></li>
-                  <li><span class="summit-date">Aug 16</span><span class="summit-name">Mount Shasta</span><span class="summit-meta">14,161 ft / USA-CA</span></li>
-                  <li><span class="summit-date">Aug 8</span><span class="summit-name">Duane Bliss Peak</span><span class="summit-meta">8,661 ft / USA-CA</span></li>
-                  <li><span class="summit-date">Aug 8</span><span class="summit-name">South Camp Peak</span><span class="summit-meta">8,868 ft / USA-CA</span></li>
-                  <li><span class="summit-date">Aug 8</span><span class="summit-name">Genoa Peak</span><span class="summit-meta">9,152 ft / USA-CA</span></li>
-                  <li><span class="summit-date">Aug 1</span><span class="summit-name">Granite Chief</span><span class="summit-meta">9,010 ft / USA-CA</span></li>
-                  <li><span class="summit-date">Jul 26</span><span class="summit-name">Maggies Peaks - North Summit</span><span class="summit-meta">8,496 ft / USA-CA</span></li>
-                  <li><span class="summit-date">Jul 26</span><span class="summit-name">Maggies Peaks - South Summit</span><span class="summit-meta">8,665 ft / USA-CA</span></li>
-                  <li><span class="summit-date">Jul 25</span><span class="summit-name">Rubicon Peak</span><span class="summit-meta">9,183 ft / USA-CA</span></li>
-                </ol>
+                <div class="summit-years">
+                  <details class="summit-year" open>
+                    <summary><strong>2026</strong><span>20 summits</span></summary>
+                    <ol class="summit-list">
+                      <li><span class="summit-date">Aug 19</span><span class="summit-name">Pikers Peak</span><span class="summit-meta">11,657 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Aug 19</span><span class="summit-name">Pahto</span><span class="summit-meta">12,280 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Aug 16</span><span class="summit-name">Mount Shasta</span><span class="summit-meta">14,161 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Aug 8</span><span class="summit-name">Duane Bliss Peak</span><span class="summit-meta">8,661 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Aug 8</span><span class="summit-name">South Camp Peak</span><span class="summit-meta">8,868 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Aug 8</span><span class="summit-name">Genoa Peak</span><span class="summit-meta">9,152 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Aug 1</span><span class="summit-name">Granite Chief</span><span class="summit-meta">9,010 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Jul 26</span><span class="summit-name">Maggies Peaks - North Summit</span><span class="summit-meta">8,496 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Jul 26</span><span class="summit-name">Maggies Peaks - South Summit</span><span class="summit-meta">8,665 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Jul 25</span><span class="summit-name">Rubicon Peak</span><span class="summit-meta">9,183 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Jul 11</span><span class="summit-name">Anderson Peak</span><span class="summit-meta">8,690 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Jul 11</span><span class="summit-name">Donner Peak</span><span class="summit-meta">8,018 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Jul 11</span><span class="summit-name">Mount Judah</span><span class="summit-meta">8,244 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Jul 11</span><span class="summit-name">Mount Lincoln</span><span class="summit-meta">8,381 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Jul 11</span><span class="summit-name">Tinker Knob</span><span class="summit-meta">8,953 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Jul 4</span><span class="summit-name">Andesite Peak</span><span class="summit-meta">8,218 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Jul 4</span><span class="summit-name">Basin Peak</span><span class="summit-meta">9,021 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Jul 4</span><span class="summit-name">Castle Peak</span><span class="summit-meta">9,109 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Jun 28</span><span class="summit-name">Mount Tallac</span><span class="summit-meta">9,737 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Jun 21</span><span class="summit-name">Lassen Peak</span><span class="summit-meta">10,462 ft / USA-CA</span></li>
+                    </ol>
+                  </details>
+                  <details class="summit-year">
+                    <summary><strong>2025</strong><span>1 summit</span></summary>
+                    <ol class="summit-list">
+                      <li><span class="summit-date">Oct 4</span><span class="summit-name">Humphreys Peak</span><span class="summit-meta">12,636 ft / USA-AZ</span></li>
+                    </ol>
+                  </details>
+                  <details class="summit-year">
+                    <summary><strong>2021</strong><span>14 summits</span></summary>
+                    <ol class="summit-list">
+                      <li><span class="summit-date">Apr 18</span><span class="summit-name">Mailbox Peak</span><span class="summit-meta">4,840 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Apr 15</span><span class="summit-name">West Tiger Mountain #3</span><span class="summit-meta">2,522 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Apr 10</span><span class="summit-name">Mount Si</span><span class="summit-meta">4,192 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Apr 8</span><span class="summit-name">West Tiger Mountain #3</span><span class="summit-meta">2,522 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Apr 7</span><span class="summit-name">West Tiger Mountain #3</span><span class="summit-meta">2,522 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Mar 13</span><span class="summit-name">Mount Umunhum</span><span class="summit-meta">3,486 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Mar 6</span><span class="summit-name">Black Mountain</span><span class="summit-meta">2,816 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Feb 27</span><span class="summit-name">Black Mountain</span><span class="summit-meta">2,816 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Feb 6</span><span class="summit-name">North Peak</span><span class="summit-meta">3,555 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Feb 6</span><span class="summit-name">Mount Olympia</span><span class="summit-meta">2,946 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Jan 30</span><span class="summit-name">Eagle Peak</span><span class="summit-meta">2,391 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Jan 23</span><span class="summit-name">Mission Peak</span><span class="summit-meta">2,519 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Jan 16</span><span class="summit-name">Mount Diablo</span><span class="summit-meta">3,849 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Jan 10</span><span class="summit-name">Mission Peak</span><span class="summit-meta">2,519 ft / USA-CA</span></li>
+                    </ol>
+                  </details>
+                  <details class="summit-year">
+                    <summary><strong>2020</strong><span>2 summits</span></summary>
+                    <ol class="summit-list">
+                      <li><span class="summit-date">Jul 11</span><span class="summit-name">Lassen Peak</span><span class="summit-meta">10,462 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Feb 8</span><span class="summit-name">Mission Peak</span><span class="summit-meta">2,519 ft / USA-CA</span></li>
+                    </ol>
+                  </details>
+                  <details class="summit-year">
+                    <summary><strong>2019</strong><span>14 summits</span></summary>
+                    <ol class="summit-list">
+                      <li><span class="summit-date">Aug 23</span><span class="summit-name">Cathedral Rock</span><span class="summit-meta">6,722 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Aug 3</span><span class="summit-name">Del Campo Peak</span><span class="summit-meta">6,615 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Jul 28</span><span class="summit-name">Argonaut Peak</span><span class="summit-meta">8,459 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Jul 14</span><span class="summit-name">Mount Hinman</span><span class="summit-meta">7,498 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Jun 30</span><span class="summit-name">Tahoma</span><span class="summit-meta">14,406 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Jun 18</span><span class="summit-name">The Tooth</span><span class="summit-meta">5,606 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Jun 15</span><span class="summit-name">Mount Garibaldi</span><span class="summit-meta">8,776 ft / Canada-BC</span></li>
+                      <li><span class="summit-date">May 25</span><span class="summit-name">Unicorn Peak</span><span class="summit-meta">6,940 ft / USA-WA</span></li>
+                      <li><span class="summit-date">May 12</span><span class="summit-name">Dragontail Peak</span><span class="summit-meta">8,841 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Mar 23</span><span class="summit-name">Mount Si</span><span class="summit-meta">4,192 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Mar 10</span><span class="summit-name">West Tiger Mountain #3</span><span class="summit-meta">2,522 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Mar 2</span><span class="summit-name">West Tiger Mountain #3</span><span class="summit-meta">2,522 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Feb 2</span><span class="summit-name">Mount Si</span><span class="summit-meta">4,192 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Jan 12</span><span class="summit-name">Mailbox Peak</span><span class="summit-meta">4,840 ft / USA-WA</span></li>
+                    </ol>
+                  </details>
+                  <details class="summit-year">
+                    <summary><strong>2018</strong><span>25 summits</span></summary>
+                    <ol class="summit-list">
+                      <li><span class="summit-date">Dec 30</span><span class="summit-name">West Tiger Mountain #3</span><span class="summit-meta">2,522 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Dec 23</span><span class="summit-name">Mount Si</span><span class="summit-meta">4,192 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Nov 18</span><span class="summit-name">Mailbox Peak</span><span class="summit-meta">4,840 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Nov 11</span><span class="summit-name">Mount Townsend</span><span class="summit-meta">6,282 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Aug 25</span><span class="summit-name">Mount Pilchuck</span><span class="summit-meta">5,341 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Jul 29</span><span class="summit-name">Dickerman Mountain</span><span class="summit-meta">5,726 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Jul 15</span><span class="summit-name">West Tiger Mountain #3</span><span class="summit-meta">2,522 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Jul 8</span><span class="summit-name">Granite Mountain</span><span class="summit-meta">5,632 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Jul 1</span><span class="summit-name">Mount Shasta</span><span class="summit-meta">14,161 ft / USA-CA</span></li>
+                      <li><span class="summit-date">Jun 24</span><span class="summit-name">Mount Baker</span><span class="summit-meta">10,779 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Jun 16</span><span class="summit-name">Mount Ellinor</span><span class="summit-meta">5,944 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Jun 16</span><span class="summit-name">Mount Si</span><span class="summit-meta">4,192 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Jun 9</span><span class="summit-name">Colchuck Peak</span><span class="summit-meta">8,711 ft / USA-WA</span></li>
+                      <li><span class="summit-date">May 15</span><span class="summit-name">Mount Si</span><span class="summit-meta">4,192 ft / USA-WA</span></li>
+                      <li><span class="summit-date">May 5</span><span class="summit-name">Bandera Mountain</span><span class="summit-meta">5,249 ft / USA-WA</span></li>
+                      <li><span class="summit-date">May 2</span><span class="summit-name">Mount Si</span><span class="summit-meta">4,192 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Apr 21</span><span class="summit-name">Loowit</span><span class="summit-meta">8,325 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Apr 14</span><span class="summit-name">Mount Si</span><span class="summit-meta">4,192 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Apr 7</span><span class="summit-name">Mailbox Peak</span><span class="summit-meta">4,840 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Mar 31</span><span class="summit-name">Mount Teneriffe</span><span class="summit-meta">4,791 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Mar 25</span><span class="summit-name">Mount Si</span><span class="summit-meta">4,192 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Mar 17</span><span class="summit-name">Mount Si</span><span class="summit-meta">4,192 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Mar 3</span><span class="summit-name">West Tiger Mountain #3</span><span class="summit-meta">2,522 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Feb 24</span><span class="summit-name">Mount Si</span><span class="summit-meta">4,192 ft / USA-WA</span></li>
+                      <li><span class="summit-date">Feb 17</span><span class="summit-name">West Tiger Mountain #3</span><span class="summit-meta">2,522 ft / USA-WA</span></li>
+                    </ol>
+                  </details>
+                </div>
               </div>
               <a class="peak-source" href="https://peakbagger.com/climber/ClimbListC.aspx?cid=20549&amp;u=ft&amp;j=-1&amp;y=9999&amp;sort=ascentdated">Full summit record on Peakbagger</a>
             </div>
-          </div>
+          </article>
+          <article class="frame" data-mode="stories">
+            <div class="frame-number">works in progress</div>
+            <div class="story-links">
+              <a href="https://moontails.github.io/heartstrings/"><strong>Heartstrings &amp; Hope</strong><span>High fantasy in the making.</span><span class="story-arrow" aria-hidden="true">&#8599;</span></a>
+              <a href="https://desolationdays.substack.com"><strong>Desolation Days</strong><span>Poems from sauntering in the sierras.</span><span class="story-arrow" aria-hidden="true">&#8599;</span></a>
+              <a href="https://cascadiannights.substack.com"><strong>Cascadian Nights</strong><span>Poems from high cascade escapades.</span><span class="story-arrow" aria-hidden="true">&#8599;</span></a>
+            </div>
+          </article>
         </div>
-      </div>
-    </section>
-
-    <section id="stories" class="elsewhere">
-      <div class="elsewhere-label" data-link-label>summits</div>
-      <div class="links" data-links>
-        <a href="https://peakbagger.com/climber/ClimbListC.aspx?cid=20549&amp;u=ft&amp;j=-1&amp;y=9999&amp;sort=ascentdated">Peakbagger</a>
-        <a href="https://www.mountainproject.com/user/200438565/balachander-ramachandran/ticks">Mountain Project</a>
-      </div>
-    </section>
+      </aside>
+    </header>
 
   </main>
 
@@ -738,16 +854,25 @@
       if (!reel) return;
 
       var slides = Array.prototype.slice.call(reel.querySelectorAll(".frame"));
-      var dots = Array.prototype.slice.call(reel.querySelectorAll(".dots button"));
-      var counter = reel.querySelector("[data-counter]");
-      var questTitle = document.querySelector("[data-quest-title]");
-      var questCopy = document.querySelector("[data-quest-copy]");
-      var questButtons = Array.prototype.slice.call(document.querySelectorAll("[data-quest-index]"));
-      var questPanels = Array.prototype.slice.call(document.querySelectorAll("[data-quest-panel]"));
-      var linkLabel = document.querySelector("[data-link-label]");
-      var linkContainer = document.querySelector("[data-links]");
+      var dotContainer = reel.querySelector("[data-dots]");
+      var dots = [];
+      var reelLabel = document.querySelector("[data-reel-label]");
+      var leadLines = Array.prototype.slice.call(document.querySelectorAll("[data-lead-mode]"));
+      var navLinks = Array.prototype.slice.call(document.querySelectorAll("[data-reel-mode]"));
       var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var modes = ["systems", "summits", "stories"];
+      var modeHashes = {
+        systems: "#systems",
+        summits: "#summits",
+        stories: "#stories"
+      };
+      var pauseButton = document.querySelector("[data-pause]");
+      var activeMode = "systems";
+      var activeSlides = slides.filter(function (slide) {
+        return slide.getAttribute("data-mode") === activeMode;
+      });
       var active = 0;
+      var paused = false;
       var timer = null;
       var signalTimer = null;
       var accents = {
@@ -764,38 +889,10 @@
         "gold", "gold", "gold", "ember", "ember", "ember",
         "aurora", "aurora", "blue", "ice", "ice", "ice"
       ];
-      var quests = [
-        {
-          title: "Systems, signals, clean failure.",
-          copy: "Architecture, operations, and the quiet craft of knowing where a system bends before it breaks.",
-          links: [
-            { label: "GitHub", href: "https://github.com/moontails" },
-            { label: "LinkedIn", href: "https://www.linkedin.com/in/bala-ramsha/" }
-          ]
-        },
-        {
-          title: "Summits, storms, stories.",
-          copy: "Jagged slopes, long approaches, crag days, training grounds, and the kind of weather that makes effort feel earned.",
-          links: [
-            { label: "Peakbagger", href: "https://peakbagger.com/climber/ClimbListC.aspx?cid=20549&u=ft&j=-1&y=9999&sort=ascentdated" },
-            { label: "Mountain Project", href: "https://www.mountainproject.com/user/200438565/balachander-ramachandran/ticks" }
-          ]
-        },
-        {
-          title: "Epic fantasy, with poems in orbit.",
-          copy: "A work-in-progress saga, with Desolation Days and Cascadian Nights carrying poems inspired by the same world.",
-          links: [
-            { label: "Epic Fantasy", href: "https://moontails.github.io/heartstrings/" },
-            { label: "Desolation Days", href: "https://desolationdays.substack.com" },
-            { label: "Cascadian Nights", href: "https://cascadiannights.substack.com" }
-          ]
-        }
-      ];
-
-      var durations = slides.map(function (slide) {
+      function getDuration(slide) {
         var words = slide.textContent.trim().split(/\s+/).filter(Boolean).length;
         return Math.max(5600, Math.min(11200, words * 285));
-      });
+      }
 
       function getAccentName() {
         var params = new URLSearchParams(window.location.search);
@@ -816,35 +913,93 @@
       }
 
       function show(index) {
-        active = (index + slides.length) % slides.length;
-        var duration = durations[active];
+        if (!activeSlides.length) return;
+
+        active = (index + activeSlides.length) % activeSlides.length;
+        var activeSlide = activeSlides[active];
+        var duration = getDuration(activeSlide);
 
         reel.style.setProperty("--duration", duration + "ms");
-        counter.textContent = String(active + 1).padStart(2, "0") + " / " + String(slides.length).padStart(2, "0");
 
-        slides.forEach(function (slide, slideIndex) {
-          slide.classList.toggle("active", slideIndex === active);
+        slides.forEach(function (slide) {
+          slide.classList.toggle("active", slide === activeSlide);
         });
 
         dots.forEach(function (dot, dotIndex) {
           dot.classList.toggle("active", dotIndex === active);
         });
 
-        startSignalCycle(slides[active], duration);
+        startSignalCycle(activeSlide, duration);
 
-        clearTimeout(timer);
-        if (!reducedMotion) {
-          timer = setTimeout(function () {
-            show(active + 1);
-          }, duration);
-        }
+        scheduleNext(duration);
       }
 
-      dots.forEach(function (dot, index) {
-        dot.addEventListener("click", function () {
-          show(index);
+      function scheduleNext(duration) {
+        clearTimeout(timer);
+        if (reducedMotion || paused) return;
+
+        timer = setTimeout(function () {
+          if (active + 1 < activeSlides.length) {
+            show(active + 1);
+            return;
+          }
+
+          setMode(getNextMode(), 0);
+        }, duration);
+      }
+
+      function renderDots() {
+        if (!dotContainer) return;
+
+        dotContainer.innerHTML = "";
+        dotContainer.style.setProperty("--dot-count", activeSlides.length);
+        dots = activeSlides.map(function (slide, index) {
+          var dot = document.createElement("button");
+          dot.type = "button";
+          var title = slide.querySelector(".frame-number");
+          dot.setAttribute("aria-label", "Show " + (title ? title.textContent : slide.getAttribute("data-mode")));
+          dot.addEventListener("click", function () {
+            show(index);
+          });
+          dotContainer.appendChild(dot);
+          return dot;
         });
-      });
+      }
+
+      function setMode(mode, index) {
+        if (modes.indexOf(mode) === -1) return;
+
+        activeMode = mode;
+        leadLines.forEach(function (line) {
+          var selected = line.getAttribute("data-lead-mode") === activeMode;
+          line.classList.toggle("active", selected);
+          line.setAttribute("aria-hidden", selected ? "false" : "true");
+        });
+        activeSlides = slides.filter(function (slide) {
+          return slide.getAttribute("data-mode") === activeMode;
+        });
+
+        navLinks.forEach(function (link) {
+          link.classList.toggle("active", link.getAttribute("data-reel-mode") === activeMode);
+        });
+
+        if (reelLabel) {
+          var reelTitles = { systems: "Systems", summits: "Summits", stories: "Stories" };
+          reelLabel.textContent = reelTitles[activeMode];
+        }
+
+        if (modeHashes[activeMode] && window.location.hash !== modeHashes[activeMode]) {
+          history.replaceState(null, "", modeHashes[activeMode]);
+        }
+
+        renderDots();
+        show(index || 0);
+      }
+
+      function getNextMode() {
+        var current = modes.indexOf(activeMode);
+        return modes[(current + 1) % modes.length];
+      }
 
       function selectSignal(slide, index) {
         var signalButtons = Array.prototype.slice.call(slide.querySelectorAll("[data-signal]"));
@@ -868,7 +1023,7 @@
         clearInterval(signalTimer);
         selectSignal(slide, 0);
 
-        if (reducedMotion || signalButtons.length < 2) return;
+        if (reducedMotion || paused || signalButtons.length < 2) return;
 
         signalTimer = setInterval(function () {
           var current = signalButtons.findIndex(function (button) {
@@ -891,55 +1046,53 @@
         });
       });
 
-      function updateQuest() {
-        var activeQuest = questButtons.find(function (button) {
-          return button.classList.contains("active");
+      navLinks.forEach(function (link) {
+        link.addEventListener("click", function (event) {
+          var mode = link.getAttribute("data-reel-mode");
+
+          if (!mode) return;
+          event.preventDefault();
+          setMode(mode, 0);
         });
-        var index = activeQuest ? Number(activeQuest.getAttribute("data-quest-index")) : 1;
-        var quest = quests[index];
+      });
 
-        if (!questTitle || !questCopy || !linkContainer || !linkLabel) return;
-        questTitle.textContent = quest.title;
-        questCopy.textContent = quest.copy;
-        linkLabel.textContent = ["systems", "summits", "stories"][index];
-        linkContainer.innerHTML = "";
+      if (pauseButton) {
+        pauseButton.addEventListener("click", function () {
+          paused = !paused;
+          pauseButton.classList.toggle("active", paused);
+          pauseButton.setAttribute("aria-label", paused ? "Play reel" : "Pause reel");
+          pauseButton.setAttribute("aria-pressed", paused ? "true" : "false");
 
-        questPanels.forEach(function (panel) {
-          var activePanel = panel.getAttribute("data-quest-panel") === String(index);
-          panel.classList.toggle("active", activePanel);
-          panel.setAttribute("aria-hidden", activePanel ? "false" : "true");
-        });
+          clearTimeout(timer);
+          clearInterval(signalTimer);
 
-        quest.links.forEach(function (link) {
-          var anchor = document.createElement("a");
-          anchor.href = link.href;
-          anchor.textContent = link.label;
-          linkContainer.appendChild(anchor);
+          if (!paused && activeSlides[active]) {
+            startSignalCycle(activeSlides[active], getDuration(activeSlides[active]));
+            scheduleNext(getDuration(activeSlides[active]));
+          }
         });
       }
 
-      questButtons.forEach(function (button) {
-        button.addEventListener("click", function () {
-          questButtons.forEach(function (otherButton) {
-            otherButton.classList.toggle("active", otherButton === button);
+      document.querySelectorAll(".summit-year").forEach(function (year) {
+        year.addEventListener("toggle", function () {
+          if (!year.open) return;
+
+          document.querySelectorAll(".summit-year").forEach(function (otherYear) {
+            if (otherYear !== year) otherYear.open = false;
           });
-          updateQuest();
         });
       });
 
-      document.querySelectorAll("[data-nav-quest]").forEach(function (link) {
-        link.addEventListener("click", function () {
-          var index = link.getAttribute("data-nav-quest");
-          var target = document.querySelector('[data-quest-index="' + index + '"]');
-          if (target) target.click();
-        });
-      });
-
-      updateQuest();
       applyAccent();
       setInterval(applyAccent, 60000);
 
-      show(0);
+      if (window.location.hash === "#summits") {
+        setMode("summits", 0);
+      } else if (window.location.hash === "#stories") {
+        setMode("stories", 0);
+      } else {
+        setMode("systems", 0);
+      }
     })();
   </script>
 </body>
