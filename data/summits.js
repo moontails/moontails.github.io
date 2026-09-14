@@ -2,6 +2,76 @@
 // Edit the CSV, then rerun the generator.
 window.SUMMITS = [
   {
+    "date": "2026-09-13",
+    "sortKey": "2026-09-13",
+    "peak": "Mount Hoffmann",
+    "location": "USA-CA",
+    "elevation": "10,853 ft"
+  },
+  {
+    "date": "2026-09-12",
+    "sortKey": "2026-09-12",
+    "peak": "Mount Dana",
+    "location": "USA-CA",
+    "elevation": "13,060 ft"
+  },
+  {
+    "date": "2026-09-06",
+    "sortKey": "2026-09-06",
+    "peak": "Mammoth Mountain",
+    "location": "USA-CA",
+    "elevation": "11,058 ft"
+  },
+  {
+    "date": "2026-09-05",
+    "sortKey": "2026-09-05",
+    "peak": "Gaylor Peak",
+    "location": "USA-CA",
+    "elevation": "11,028 ft"
+  },
+  {
+    "date": "2026-08-19",
+    "sortKey": "2026-08-19 b",
+    "peak": "Pikers Peak",
+    "location": "USA-WA",
+    "elevation": "11,657 ft"
+  },
+  {
+    "date": "2026-08-19",
+    "sortKey": "2026-08-19 a",
+    "peak": "Mount Adams",
+    "location": "USA-WA",
+    "elevation": "12,280 ft"
+  },
+  {
+    "date": "2026-08-16",
+    "sortKey": "2026-08-16",
+    "peak": "Mount Shasta",
+    "location": "USA-CA",
+    "elevation": "14,161 ft"
+  },
+  {
+    "date": "2026-08-08",
+    "sortKey": "2026-08-08 c",
+    "peak": "Duane Bliss Peak",
+    "location": "USA-CA",
+    "elevation": "8,661 ft"
+  },
+  {
+    "date": "2026-08-08",
+    "sortKey": "2026-08-08 b",
+    "peak": "South Camp Peak",
+    "location": "USA-CA",
+    "elevation": "8,868 ft"
+  },
+  {
+    "date": "2026-08-08",
+    "sortKey": "2026-08-08 a",
+    "peak": "Genoa Peak",
+    "location": "USA-CA",
+    "elevation": "9,152 ft"
+  },
+  {
     "date": "2026-08-01",
     "sortKey": "2026-08-01",
     "peak": "Granite Chief",
