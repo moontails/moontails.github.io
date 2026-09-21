@@ -2,6 +2,13 @@
 // Edit the CSV, then rerun the generator.
 window.SUMMITS = [
   {
+    "date": "2026-09-20",
+    "sortKey": "2026-09-20",
+    "peak": "Loowit (Mount Saint Helens)",
+    "location": "USA-WA",
+    "elevation": "8,325 ft"
+  },
+  {
     "date": "2026-09-13",
     "sortKey": "2026-09-13",
     "peak": "Mount Hoffmann",
@@ -39,7 +46,7 @@ window.SUMMITS = [
   {
     "date": "2026-08-19",
     "sortKey": "2026-08-19 a",
-    "peak": "Mount Adams",
+    "peak": "Pahto (Mount Adams)",
     "location": "USA-WA",
     "elevation": "12,280 ft"
   },
@@ -319,7 +326,7 @@ window.SUMMITS = [
   {
     "date": "2019-06-30",
     "sortKey": "2019-06-30",
-    "peak": "Tahoma",
+    "peak": "Tahoma (Mount Rainier)",
     "location": "USA-WA",
     "elevation": "14,406 ft"
   },
@@ -501,7 +508,7 @@ window.SUMMITS = [
   {
     "date": "2018-04-21",
     "sortKey": "2018-04-21 b",
-    "peak": "Loowit",
+    "peak": "Loowit (Mount Saint Helens)",
     "location": "USA-WA",
     "elevation": "8,325 ft"
   },
