@@ -4,7 +4,7 @@ window.SUMMITS = [
   {
     "date": "2026-09-20",
     "sortKey": "2026-09-20",
-    "peak": "Loowit (Mountt Saint Helens)",
+    "peak": "Loowit (Mount Saint Helens)",
     "location": "USA-WA",
     "elevation": "8,325 ft"
   },
